@@ -52,6 +52,30 @@ namespace RestfulAPI.Web
             });
 
             services.AddRazorPages().AddMicrosoftIdentityUI();
+            
+            //Register the Swagger services
+            services.AddSwaggerDocument(config =>
+            {
+                config.PostProcess = document =>
+                {
+                    document.Info.Version = "v1";
+                    document.Info.Title = "Restful API";
+                    document.Info.Description = "Test simple ASP.NET Core Web API";
+                    document.Info.TermsOfService = "none";
+                    document.Info.Contact = new NSwag.OpenApiContact
+                    {
+                        Name = "59Tese",
+                        Email = "pmt01061999@gmail.com",
+                        Url = String.Empty
+                    };
+                    document.Info.License = new NSwag.OpenApiLicense
+                    {
+                        Name = "Apache 2.0",
+                        Url = "http://www.apache.org/licenses/LICENSE-2.0.html"
+                    };
+                };
+
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,10 +91,17 @@ namespace RestfulAPI.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseCors(p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            // Register the Swagger generator and the Swagger UI middlewares
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
 
             app.UseAuthentication();
             app.UseAuthorization();
