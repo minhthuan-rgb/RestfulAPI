@@ -17,8 +17,4 @@
     <ProjectReference Include="..\RestfulAPI.Common\RestfulAPI.Common.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Rep\" />
-  </ItemGroup>
-
 </Project>

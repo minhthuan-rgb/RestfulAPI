@@ -376,33 +376,48 @@ function () {
     this.isFile = true;
 
     this.getAllItem = function () {
-      _this.httpClient.getAllItems().then(function (data) {
-        _this.renderItemList(data);
+      return __awaiter(_this, void 0, void 0, function () {
+        var _a;
 
-        _this.itemList = data;
-      }).catch(function (error) {
-        alert(error);
+        return __generator(this, function (_b) {
+          switch (_b.label) {
+            case 0:
+              _a = this;
+              return [4
+              /*yield*/
+              , this.httpClient.getAllItemsFromAPI()];
+
+            case 1:
+              _a.itemList = _b.sent();
+              this.renderItemList();
+              return [2
+              /*return*/
+              ];
+          }
+        });
       });
     };
 
-    this.renderItemList = function (itemList) {
+    this.renderItemList = function () {
       // const html = items.map ((item) => `html`).join('');
       var html = '';
-      itemList.forEach(function (item) {
+
+      _this.itemList.forEach(function (item) {
         var iconClass = item.hasOwnProperty('extension') ? 'fa-file-excel' : 'fa-folder-open';
         var recentHint = item.modifiedAt === 'A few seconds ago' ? '<i class="fab fa-yelp"></i>' : '';
         html += "<tr>\n                <td><i class=\"fas " + iconClass + "\"></i></td>\n                <td>" + recentHint + item.name + "</td>\n                <td>" + item.modifiedAt + "</td>\n                <td>" + item.modifiedBy + "</td>\n                <td>\n                  <button class=\"btn btn-edit\">Edit</button>\n                  <button class=\"btn btn-delete\">Delete</button>\n                </td>\n                <td></td>\n              </tr>";
       });
+
       document.querySelector('#itemList').innerHTML = html;
       var deleteBtns = document.querySelectorAll('.btn-delete');
       var editBtns = document.querySelectorAll('.btn-edit');
 
       var _loop_1 = function (i) {
         deleteBtns[i].addEventListener('click', function () {
-          _this.deleteItem(itemList[i].id);
+          _this.deleteItem(_this.itemList[i].id, _this.itemList[i].hasOwnProperty('extension'));
         });
         editBtns[i].addEventListener('click', function () {
-          _this.openModal(itemList[i].hasOwnProperty('extension'), false, itemList[i]);
+          _this.openModal(_this.itemList[i].hasOwnProperty('extension'), false, _this.itemList[i]);
         });
       };
 
@@ -440,7 +455,7 @@ function () {
           htmlBodyLastChild += "<select id=\"subFolders\" name=\"subFolders\" class=\"form-control\">\n                                <option selected value=\"none\">None</option>";
 
           _this.folderList.forEach(function (item) {
-            htmlBodyLastChild += "<option value=\"" + item.id + "\" " + (_this.item.subFolders !== null ? _this.item.subFolders.id === item.id ? 'selected' : '' : '') + ">" + item.name + "</option>";
+            htmlBodyLastChild += "<option value=\"" + item.id + "\" " + (_this.item.subFolderId !== 0 ? _this.item.subFolderId === item.id ? 'selected' : '' : '') + ">" + item.name + "</option>";
           });
 
           htmlBodyLastChild += "</select>";
@@ -515,14 +530,14 @@ function () {
         extension.value = _this.getExtension(_this.item.name);
         _this.item.extension = extension.value;
       } else {
-        var subFolders = Array.from(document.querySelector('#subFolders').children);
-        subFolders.forEach(function (subFolder) {
-          if (subFolder.selected === true) {
-            if (subFolder.value === 'none') _this.item.subFolders = null;else _this.item.subFolders = _this.folderList.find(function (folder) {
-              return folder.id === +subFolder.value;
-            });
-          }
-        });
+        if (_this.folderList.length > 0) {
+          var subFolders = Array.from(document.querySelector('#subFolders').children);
+          subFolders.forEach(function (subFolder) {
+            if (subFolder.selected === true) {
+              if (subFolder.value === 'none') _this.item.subFolderId = 0;else _this.item.subFolderId = +subFolder.value;
+            }
+          });
+        }
       }
 
       if (_this.isEdit) _this.updateItem();else _this.addItem();
@@ -541,7 +556,7 @@ function () {
     };
 
     this.addItem = function () {
-      _this.httpClient.addItem(_this.item).then(function (message) {
+      _this.httpClient.addItemToAPI(_this.item).then(function (message) {
         _this.hideModal();
 
         alert(message);
@@ -553,7 +568,7 @@ function () {
     };
 
     this.updateItem = function () {
-      _this.httpClient.updateItem(_this.item).then(function (message) {
+      _this.httpClient.updateItemToAPI(_this.item).then(function (message) {
         _this.hideModal();
 
         alert(message);
@@ -564,9 +579,9 @@ function () {
       });
     };
 
-    this.deleteItem = function (id) {
+    this.deleteItem = function (id, isFile) {
       if (confirm('Are you sure to delete this item?')) {
-        _this.httpClient.removeItem(id).then(function (message) {
+        _this.httpClient.removeItemToAPI(id, isFile).then(function (message) {
           alert(message);
         }).catch(function (error) {
           alert(error);
@@ -757,7 +772,7 @@ var Folder =
 function (_super) {
   __extends(Folder, _super);
 
-  function Folder(id, name, createAt, createdBy, modifiedAt, modifiedBy, subFolders) {
+  function Folder(id, name, createAt, createdBy, modifiedAt, modifiedBy, subFolderId) {
     if (id === void 0) {
       id = 0;
     }
@@ -782,13 +797,13 @@ function (_super) {
       modifiedBy = '';
     }
 
-    if (subFolders === void 0) {
-      subFolders = null;
+    if (subFolderId === void 0) {
+      subFolderId = 0;
     }
 
     var _this = _super.call(this, id, name, createAt, createdBy, modifiedAt, modifiedBy) || this;
 
-    _this.subFolders = subFolders;
+    _this.subFolderId = subFolderId;
     return _this;
   }
 
@@ -971,6 +986,8 @@ var __generator = undefined && undefined.__generator || function (thisArg, body)
     };
   }
 };
+/* eslint-disable no-console */
+
 /* eslint-disable no-shadow */
 
 /* eslint-disable no-else-return */
@@ -997,6 +1014,119 @@ function () {
   function HttpClient() {
     var _this = this;
 
+    this.BASE_URL = 'https://localhost:44302/';
+
+    this.getAllFolders = function () {
+      return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+          return __awaiter(_this, void 0, void 0, function () {
+            var result;
+            return __generator(this, function (_a) {
+              switch (_a.label) {
+                case 0:
+                  return [4
+                  /*yield*/
+                  , fetch(this.BASE_URL + "api/API/get-all-folders").then(function (res) {
+                    return res.json();
+                  }).then(function (res) {
+                    return Array.from(res);
+                  })];
+
+                case 1:
+                  result = _a.sent();
+                  if (result) resolve(result);else reject('No Data');
+                  return [2
+                  /*return*/
+                  ];
+              }
+            });
+          });
+        }, 1000);
+      });
+    };
+
+    this.getAllFiles = function () {
+      return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+          return __awaiter(_this, void 0, void 0, function () {
+            var result;
+            return __generator(this, function (_a) {
+              switch (_a.label) {
+                case 0:
+                  return [4
+                  /*yield*/
+                  , fetch(this.BASE_URL + "api/API/get-all-files").then(function (res) {
+                    return res.json();
+                  }).then(function (res) {
+                    return Array.from(res);
+                  })];
+
+                case 1:
+                  result = _a.sent();
+                  if (result) resolve(result);else reject('No Data');
+                  return [2
+                  /*return*/
+                  ];
+              }
+            });
+          });
+        }, 1000);
+      });
+    };
+
+    this.getAllItemsFromAPI = function () {
+      return __awaiter(_this, void 0, void 0, function () {
+        var itemList, mockDelay;
+
+        var _this = this;
+
+        return __generator(this, function (_a) {
+          switch (_a.label) {
+            case 0:
+              itemList = [];
+              this.getAllFolders().then(function (data) {
+                data.forEach(function (d) {
+                  return itemList.push(d);
+                });
+              });
+              this.getAllFiles().then(function (data) {
+                data.forEach(function (d) {
+                  return itemList.push(d);
+                });
+              });
+
+              mockDelay = function () {
+                return __awaiter(_this, void 0, void 0, function () {
+                  return __generator(this, function (_a) {
+                    return [2
+                    /*return*/
+                    , new Promise(function (resolve) {
+                      return setTimeout(function () {
+                        return resolve('Delay');
+                      }, 3000);
+                    })];
+                  });
+                });
+              };
+
+              return [4
+              /*yield*/
+              , mockDelay()];
+
+            case 1:
+              _a.sent();
+
+              if (itemList) return [2
+              /*return*/
+              , itemList];else throw 'No Item Found';
+              return [2
+              /*return*/
+              ];
+          }
+        });
+      });
+    };
+
     this.getAllItems = function () {
       return new Promise(function (resolve, reject) {
         setTimeout(function () {
@@ -1018,6 +1148,41 @@ function () {
       });
     };
 
+    this.addItemToAPI = function (addItem) {
+      return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+          return __awaiter(_this, void 0, void 0, function () {
+            var result;
+            return __generator(this, function (_a) {
+              switch (_a.label) {
+                case 0:
+                  return [4
+                  /*yield*/
+                  , fetch("" + this.BASE_URL + (addItem.hasOwnProperty('extension') ? 'api/API/create-file' : 'api/API/create-folder'), {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(addItem)
+                  }).then(function (res) {
+                    return res.json();
+                  }).then(function (res) {
+                    return res;
+                  })];
+
+                case 1:
+                  result = _a.sent();
+                  if (result === true) resolve('Successfully Added!');else reject('Unsuccessfully Add!');
+                  return [2
+                  /*return*/
+                  ];
+              }
+            });
+          });
+        }, 1000);
+      });
+    };
+
     this.addItem = function (addItem) {
       return new Promise(function (resolve, reject) {
         setTimeout(function () {
@@ -1030,6 +1195,41 @@ function () {
             sessionStorage.setItem('data', JSON.stringify(result));
             resolve('Successfully Added!');
           }
+        }, 1000);
+      });
+    };
+
+    this.updateItemToAPI = function (upItem) {
+      return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+          return __awaiter(_this, void 0, void 0, function () {
+            var result;
+            return __generator(this, function (_a) {
+              switch (_a.label) {
+                case 0:
+                  return [4
+                  /*yield*/
+                  , fetch("" + this.BASE_URL + (upItem.hasOwnProperty('extension') ? 'api/API/update-file' : 'api/API/update-folder'), {
+                    method: 'PUT',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(upItem)
+                  }).then(function (res) {
+                    return res.json();
+                  }).then(function (res) {
+                    return res;
+                  })];
+
+                case 1:
+                  result = _a.sent();
+                  if (result === true) resolve('Successfully Updated!');else reject('Unsuccessfully Update');
+                  return [2
+                  /*return*/
+                  ];
+              }
+            });
+          });
         }, 1000);
       });
     };
@@ -1054,6 +1254,41 @@ function () {
             resolve('Successfully Updated!');
           } else reject('Item Not Found!');
         }, 1000);
+      });
+    };
+
+    this.removeItemToAPI = function (id, isFile) {
+      return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+          return __awaiter(_this, void 0, void 0, function () {
+            var result;
+            return __generator(this, function (_a) {
+              switch (_a.label) {
+                case 0:
+                  return [4
+                  /*yield*/
+                  , fetch("" + this.BASE_URL + (isFile ? 'api/API/delete-file' : 'api/API/delete-folder'), {
+                    method: 'DELETE',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(id)
+                  }).then(function (res) {
+                    return res.json();
+                  }).then(function (res) {
+                    return res;
+                  })];
+
+                case 1:
+                  result = _a.sent();
+                  if (result === true) resolve('Successfully Deleled!');else reject('Unsuccessfully Delete!');
+                  return [2
+                  /*return*/
+                  ];
+              }
+            });
+          });
+        }, 500);
       });
     };
 
@@ -1105,7 +1340,7 @@ function () {
                     /*return*/
                     , new Promise(function (resolve) {
                       return setTimeout(function () {
-                        return resolve('abc');
+                        return resolve('Delay');
                       }, 1000);
                     })];
                   });
@@ -1124,7 +1359,7 @@ function () {
                 return !item.hasOwnProperty('extension') && item.id !== id;
               });
               folderItems = folderItems.filter(function (folder) {
-                return !(folder.subFolders.id === id);
+                return !(folder.subFolderId === id);
               });
               if (folderItems) return [2
               /*return*/

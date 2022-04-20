@@ -18,8 +18,4 @@
     <ProjectReference Include="..\RestfulAPI.DAL\RestfulAPI.DAL.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Svc\" />
-  </ItemGroup>
-
 </Project>

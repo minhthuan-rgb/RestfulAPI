@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,9 +9,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
 namespace RestfulAPI.Web
@@ -36,7 +32,7 @@ namespace RestfulAPI.Web
             });
 
             services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-                    .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"));
+                .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"));
 
             //builder.Services.AddAuthorization(options =>
             //{
@@ -51,8 +47,17 @@ namespace RestfulAPI.Web
                 options.Filters.Add(new AuthorizeFilter(policy));
             });
 
-            services.AddRazorPages().AddMicrosoftIdentityUI();
-            
+            services.AddRazorPages()
+                 .AddMicrosoftIdentityUI();
+
+            services.AddMvc(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                                .RequireAuthenticatedUser()
+                                .Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+            });
+
             //Register the Swagger services
             services.AddSwaggerDocument(config =>
             {
@@ -74,7 +79,6 @@ namespace RestfulAPI.Web
                         Url = "http://www.apache.org/licenses/LICENSE-2.0.html"
                     };
                 };
-
             });
         }
 
