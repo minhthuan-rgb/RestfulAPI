@@ -75,7 +75,6 @@ namespace RestfulAPI.DAL.Models
                     .HasColumnName("createdAt");
 
                 entity.Property(e => e.CreatedBy)
-                    .IsRequired()
                     .HasMaxLength(50)
                     .HasColumnName("createdBy");
 
@@ -84,21 +83,14 @@ namespace RestfulAPI.DAL.Models
                     .HasColumnName("modifiedAt");
 
                 entity.Property(e => e.ModifiedBy)
-                    .IsRequired()
                     .HasMaxLength(50)
                     .HasColumnName("modifiedBy");
 
                 entity.Property(e => e.Name)
-                    .IsRequired()
                     .HasMaxLength(150)
                     .HasColumnName("name");
 
                 entity.Property(e => e.SubFolderId).HasColumnName("subFolderId");
-
-                entity.HasOne(d => d.SubFolder)
-                    .WithMany(p => p.InverseSubFolder)
-                    .HasForeignKey(d => d.SubFolderId)
-                    .HasConstraintName("FK_Folders_Folders");
             });
 
             OnModelCreatingPartial(modelBuilder);

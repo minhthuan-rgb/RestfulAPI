@@ -7,9 +7,6 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-    var identity = User.Identity as ClaimsIdentity;
-    string username = identity.Claims.FirstOrDefault(c => c.Type == "preferred_username")?.Value;
-
     <nav class="nav">
         <button class="nav-icon">
             <i class="fa fa-bars"></i>
@@ -54,7 +51,10 @@
         </ul>
     </nav>
 
-    <p style="float: right; margin-right: 1rem;">Hello <b id="username">@username!</b></p>
+    <div style="float: right; margin-right: 1rem;">
+        <h2>Hello <b id="username">@User.Identity.Name</b>!</h2>
+        <a asp-controller="Account" asp-action="Signout" asp-area="MicrosoftIdentity">Signout</a>
+    </div>
 
     <section class="doc">
         <h1 class="doc-header">Documents</h1>

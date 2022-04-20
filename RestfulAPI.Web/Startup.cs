@@ -56,7 +56,7 @@ namespace RestfulAPI.Web
                                 .RequireAuthenticatedUser()
                                 .Build();
                 options.Filters.Add(new AuthorizeFilter(policy));
-            });
+            }).AddMicrosoftIdentityUI();
 
             //Register the Swagger services
             services.AddSwaggerDocument(config =>

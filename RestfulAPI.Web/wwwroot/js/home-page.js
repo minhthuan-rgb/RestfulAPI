@@ -171,10 +171,10 @@ __webpack_require__.r(__webpack_exports__);
 var Base =
 /** @class */
 function () {
-  function Base(id, name, createAt, createdBy, modifiedAt, modifiedBy) {
+  function Base(id, name, createdAt, createdBy, modifiedAt, modifiedBy) {
     this.id = id;
     this.name = name;
-    this.createdAt = createAt;
+    this.createdAt = createdAt;
     this.createdBy = createdBy;
     this.modifiedAt = modifiedAt;
     this.modifiedBy = modifiedBy;
@@ -427,6 +427,8 @@ function () {
     };
 
     this.openModal = function (isFile, isNew, item) {
+      var _a, _b;
+
       var htmlBodyLastChild = '';
 
       if (!isFile) {
@@ -438,12 +440,14 @@ function () {
           _this.item.id = 0;
           _this.item.name = 'Test Folder';
           _this.item.createdAt = 'A few seconds ago';
-          _this.item.createdBy = 'Minh Thuan';
-          _this.item.modifiedAt = 'A few seconds ago';
-          _this.item.modifiedBy = 'Minh Thuan';
+          _this.item.createdBy = document.querySelector('#username').textContent;
+          _this.item.modifiedAt = 'Nerver';
+          _this.item.modifiedBy = 'None';
         } else {
           _this.isEdit = true;
           _this.item = item;
+          _this.item.modifiedBy = document.querySelector('#username').textContent;
+          _this.item.ModifiedAt = 'A few seconds ago';
         }
 
         htmlBodyLastChild = "<div class=\"form-group\">\n                            <p>Sub Folders</p>";
@@ -471,15 +475,18 @@ function () {
         if (isNew) {
           _this.isEdit = false;
           _this.item.id = 0;
-          _this.item.name = 'TestFile.xlsx';
           _this.item.createdAt = 'A few seconds ago';
-          _this.item.createdBy = 'Minh Thuan';
-          _this.item.modifiedAt = 'A few seconds ago';
-          _this.item.modifiedBy = 'Minh Thuan';
-          _this.item.extension = _this.getExtension(_this.item.name);
+          _this.item.createdBy = document.querySelector('#username').textContent;
+          ;
+          _this.item.modifiedAt = 'Never';
+          _this.item.modifiedBy = 'None';
+          _a = _this.splitFileName('TestFile.xlsx'), _this.item.name = _a[0], _this.item.extension = _a[1];
         } else {
           _this.isEdit = true;
           _this.item = item;
+          _this.item.modifiedBy = document.querySelector('#username').textContent;
+          _this.item.modifiedAt = 'A few seconds ago';
+          _b = _this.splitFileName(_this.item.name), _this.item.name = _b[0], _this.item.extension = _b[1];
         }
 
         htmlBodyLastChild = "<div class=\"form-group\">\n                            <label for=\"extension\">Extension</label>\n                            <input\n                              class=\"form-control\"\n                              id=\"extension\"\n                              type=\"text\"\n                              name=\"Extension\"\n                              value=\"" + _this.item.extension + "\"\n                            />\n                          </div>";
@@ -496,7 +503,7 @@ function () {
       var headerText = (_this.isEdit ? 'Update' : 'Add New') + " " + (_this.isFile ? 'File' : 'Folder') + " " + (_this.isEdit ? _this.item.id : '');
       document.querySelector('#modalHeader').textContent = headerText; // Body config
 
-      var htmlBody = "<div class=\"form-group\">\n                      <label for=\"itemId\">ID</label>\n                      <input\n                        class=\"form-control\"\n                        id=\"itemId\"\n                        type=\"number\"\n                        name=\"ID\"\n                        disabled\n                        value=\"" + _this.item.id + "\"\n                      />\n                    </div>\n                    <div class=\"form-group\">\n                      <label for=\"name\">Name</label>\n                      <input\n                        class=\"form-control\"\n                        id=\"name\"\n                        type=\"text\"\n                        name=\"Name\"\n                        value=\"" + _this.item.name + "\"\n                      />\n                    </div>\n                    <div class=\"form-group\">\n                    <label for=\"modifiedAt\">Modified At</label>\n                    <input\n                      class=\"form-control\"\n                      id=\"modifiedAt\"\n                      type=\"text\"\n                      name=\"ModifiedAt\"\n                      disabled\n                      value=\"" + _this.item.modifiedAt + "\"\n                    />\n                  </div>\n                  <div class=\"form-group\">\n                    <label for=\"modifiedBy\">Modified By</label>\n                    <input\n                      class=\"form-control\"\n                      id=\"modifiedBy\"\n                      type=\"text\"\n                      name=\"ModifiedBy\"\n                      value=\"" + _this.item.modifiedBy + "\"\n                    />\n                  </div>\n                  <div class=\"form-group\">\n                    <label for=\"createdAt\">Created At</label>\n                    <input\n                      class=\"form-control\"\n                      id=\"createdAt\"\n                      type=\"text\"\n                      name=\"CreateAt\"\n                      disabled\n                      value=\"" + _this.item.createdAt + "\"\n                    />\n                  </div>\n                  <div class=\"form-group\">\n                    <label class=\"\" for=\"createdBy\">Created By</label>\n                    <input\n                      class=\"form-control\"\n                      id=\"createdBy\"\n                      type=\"text\"\n                      name=\"CreateBy\"\n                      value=\"" + _this.item.createdBy + "\"\n                    />\n                  </div>";
+      var htmlBody = "<div class=\"form-group\">\n                      <label for=\"itemId\">ID</label>\n                      <input\n                        class=\"form-control\"\n                        id=\"itemId\"\n                        type=\"number\"\n                        name=\"ID\"\n                        disabled\n                        value=\"" + _this.item.id + "\"\n                      />\n                    </div>\n                    <div class=\"form-group\">\n                      <label for=\"name\">Name</label>\n                      <input\n                        class=\"form-control\"\n                        id=\"name\"\n                        type=\"text\"\n                        name=\"Name\"\n                        value=\"" + _this.item.name + "\"\n                      />\n                    </div>\n                    <div class=\"form-group\">\n                    <label for=\"modifiedAt\">Modified At</label>\n                    <input\n                      class=\"form-control\"\n                      id=\"modifiedAt\"\n                      type=\"text\"\n                      name=\"ModifiedAt\"\n                      disabled\n                      value=\"" + _this.item.modifiedAt + "\"\n                    />\n                  </div>\n                  <div class=\"form-group\">\n                    <label for=\"modifiedBy\">Modified By</label>\n                    <input\n                      class=\"form-control\"\n                      id=\"modifiedBy\"\n                      type=\"text\"\n                      name=\"ModifiedBy\"\n                      disabled\n                      value=\"" + _this.item.modifiedBy + "\"\n                    />\n                  </div>\n                  <div class=\"form-group\">\n                    <label for=\"createdAt\">Created At</label>\n                    <input\n                      class=\"form-control\"\n                      id=\"createdAt\"\n                      type=\"text\"\n                      name=\"CreateAt\"\n                      disabled\n                      value=\"" + _this.item.createdAt + "\"\n                    />\n                  </div>\n                  <div class=\"form-group\">\n                    <label class=\"\" for=\"createdBy\">Created By</label>\n                    <input\n                      class=\"form-control\"\n                      id=\"createdBy\"\n                      type=\"text\"\n                      name=\"CreateBy\"\n                      disabled\n                      value=\"" + _this.item.createdBy + "\"\n                    />\n                  </div>";
       htmlBody += htmlBodyLastChild;
       document.querySelector('#modalForm').innerHTML = htmlBody;
       if (!_this.isEdit) document.querySelector('#modalForm .form-group:first-child').setAttribute('style', 'display: none;'); // Footer config
@@ -527,8 +534,8 @@ function () {
 
       if (_this.isFile) {
         var extension = document.querySelector('#extension');
-        extension.value = _this.getExtension(_this.item.name);
         _this.item.extension = extension.value;
+        _this.item.name = _this.item.name + "." + _this.item.extension;
       } else {
         if (_this.folderList.length > 0) {
           var subFolders = Array.from(document.querySelector('#subFolders').children);
@@ -537,7 +544,7 @@ function () {
               if (subFolder.value === 'none') _this.item.subFolderId = 0;else _this.item.subFolderId = +subFolder.value;
             }
           });
-        }
+        } else _this.item.subFolderId = 0;
       }
 
       if (_this.isEdit) _this.updateItem();else _this.addItem();
@@ -633,8 +640,8 @@ function () {
     this.httpClient.initialItemList();
   }
 
-  Client.prototype.getExtension = function (fileName) {
-    return fileName.slice(fileName.lastIndexOf('.') + 1);
+  Client.prototype.splitFileName = function (fullName) {
+    return [fullName.slice(0, fullName.lastIndexOf('.')), fullName.slice(fullName.lastIndexOf('.') + 1)];
   };
 
   return Client;
@@ -687,7 +694,7 @@ var CFile =
 function (_super) {
   __extends(CFile, _super);
 
-  function CFile(id, name, createAt, createdBy, modifiedAt, modifiedBy, extension) {
+  function CFile(id, name, createdAt, createdBy, modifiedAt, modifiedBy, extension) {
     if (id === void 0) {
       id = 0;
     }
@@ -696,8 +703,8 @@ function (_super) {
       name = '';
     }
 
-    if (createAt === void 0) {
-      createAt = '';
+    if (createdAt === void 0) {
+      createdAt = '';
     }
 
     if (createdBy === void 0) {
@@ -716,7 +723,7 @@ function (_super) {
       extension = '';
     }
 
-    var _this = _super.call(this, id, name, createAt, createdBy, modifiedAt, modifiedBy) || this;
+    var _this = _super.call(this, id, name, createdAt, createdBy, modifiedAt, modifiedBy) || this;
 
     _this.extension = extension;
     return _this;
@@ -772,7 +779,7 @@ var Folder =
 function (_super) {
   __extends(Folder, _super);
 
-  function Folder(id, name, createAt, createdBy, modifiedAt, modifiedBy, subFolderId) {
+  function Folder(id, name, createdAt, createdBy, modifiedAt, modifiedBy, subFolderId) {
     if (id === void 0) {
       id = 0;
     }
@@ -781,8 +788,8 @@ function (_super) {
       name = '';
     }
 
-    if (createAt === void 0) {
-      createAt = '';
+    if (createdAt === void 0) {
+      createdAt = '';
     }
 
     if (createdBy === void 0) {
@@ -801,7 +808,7 @@ function (_super) {
       subFolderId = 0;
     }
 
-    var _this = _super.call(this, id, name, createAt, createdBy, modifiedAt, modifiedBy) || this;
+    var _this = _super.call(this, id, name, createdAt, createdBy, modifiedAt, modifiedBy) || this;
 
     _this.subFolderId = subFolderId;
     return _this;
@@ -1011,8 +1018,151 @@ var __generator = undefined && undefined.__generator || function (thisArg, body)
 var HttpClient =
 /** @class */
 function () {
+  // #region Old
   function HttpClient() {
     var _this = this;
+
+    this.getAllItems = function () {
+      return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+          var result = JSON.parse(sessionStorage.getItem('data'));
+          if (result) resolve(Array.from(result));else reject('No Data');
+        }, 1000);
+      });
+    };
+
+    this.getItemById = function (id) {
+      return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+          var result = JSON.parse(sessionStorage.getItem('data'));
+          var foundItem = result.find(function (item) {
+            return item.id === id;
+          });
+          if (foundItem) resolve(foundItem);else reject('Item Not Found');
+        }, 1000);
+      });
+    };
+
+    this.addItem = function (addItem) {
+      return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+          var result = JSON.parse(sessionStorage.getItem('data'));
+          if (result.find(function (item) {
+            return item.name === addItem.name;
+          })) reject('Item Already Exists!');else {
+            addItem.id = result.length + 1;
+            result.push(addItem);
+            sessionStorage.setItem('data', JSON.stringify(result));
+            resolve('Successfully Added!');
+          }
+        }, 1000);
+      });
+    };
+
+    this.updateItem = function (upItem) {
+      return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+          var result = JSON.parse(sessionStorage.getItem('data'));
+          var foundItem = result.find(function (item) {
+            return item.id === upItem.id;
+          });
+
+          if (foundItem) {
+            var index = result.indexOf(foundItem);
+            result[index].name = upItem.name;
+            result[index].createdAt = upItem.createdAt;
+            result[index].createdBy = upItem.createdBy;
+            result[index].modifiedAt = upItem.modifiedAt;
+            result[index].modifiedBy = upItem.modifiedBy;
+            if (upItem.hasOwnProperty('extension')) result[index].extension = upItem.extension;else result[index].subFolders = upItem.subFolders;
+            sessionStorage.setItem('data', JSON.stringify(result));
+            resolve('Successfully Updated!');
+          } else reject('Item Not Found!');
+        }, 1000);
+      });
+    };
+
+    this.removeItem = function (id) {
+      return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+          var result = JSON.parse(sessionStorage.getItem('data'));
+          var foundItem = result.find(function (item) {
+            return item.id === id;
+          });
+
+          if (foundItem) {
+            result.splice(result.indexOf(foundItem), 1);
+            sessionStorage.setItem('data', JSON.stringify(result));
+            resolve('Successfully Deleted!');
+          } else reject('Item Not Found!');
+        }, 1000);
+      });
+    };
+
+    this.initialItemList = function () {
+      var data = [];
+      var item1 = new _folder_model__WEBPACK_IMPORTED_MODULE_1__["default"](1, 'CAS', 'April 08', 'Minh Thuan', 'April 30', 'Megan Bowen');
+      var item2 = new _file_model__WEBPACK_IMPORTED_MODULE_0__["default"](2, 'CoasterAndBargeLoading.xlsx', 'April 08', 'Minh Thuan', 'A few seconds ago', 'Administrator', 'xlsx');
+      var item3 = new _file_model__WEBPACK_IMPORTED_MODULE_0__["default"](3, 'RevenueByServices.xlsx', 'April 08', 'Minh Thuan', 'A few seconds ago', 'Administrator', 'xlsx');
+      var item4 = new _file_model__WEBPACK_IMPORTED_MODULE_0__["default"](4, 'RevenueByServices2016.xlsx', 'April 08', 'Minh Thuan', 'A few seconds ago', 'Administrator', 'xlsx');
+      var item5 = new _file_model__WEBPACK_IMPORTED_MODULE_0__["default"](5, 'RevenueByServices2017.xlsx', 'April 08', 'Minh Thuan', 'A few seconds ago', 'Administrator', 'xlsx');
+      data.push(item1);
+      data.push(item2);
+      data.push(item3);
+      data.push(item4);
+      data.push(item5);
+      sessionStorage.setItem('data', JSON.stringify(data));
+    };
+
+    this.getFolderItems = function (id) {
+      return __awaiter(_this, void 0, void 0, function () {
+        var mockDelay, result, folderItems;
+
+        var _this = this;
+
+        return __generator(this, function (_a) {
+          switch (_a.label) {
+            case 0:
+              mockDelay = function () {
+                return __awaiter(_this, void 0, void 0, function () {
+                  return __generator(this, function (_a) {
+                    return [2
+                    /*return*/
+                    , new Promise(function (resolve) {
+                      return setTimeout(function () {
+                        return resolve('Delay');
+                      }, 1000);
+                    })];
+                  });
+                });
+              };
+
+              return [4
+              /*yield*/
+              , mockDelay()];
+
+            case 1:
+              _a.sent();
+
+              result = JSON.parse(sessionStorage.getItem('data'));
+              folderItems = result.filter(function (item) {
+                return !item.hasOwnProperty('extension') && item.id !== id;
+              });
+              folderItems = folderItems.filter(function (folder) {
+                return !(folder.subFolderId === id);
+              });
+              if (folderItems) return [2
+              /*return*/
+              , folderItems];else throw 'No Folder Item Found.';
+              return [2
+              /*return*/
+              ];
+          }
+        });
+      });
+    }; // #endregion
+    // #region New
+
 
     this.BASE_URL = 'https://localhost:44302/';
 
@@ -1103,7 +1253,7 @@ function () {
                     , new Promise(function (resolve) {
                       return setTimeout(function () {
                         return resolve('Delay');
-                      }, 3000);
+                      }, 3500);
                     })];
                   });
                 });
@@ -1124,27 +1274,6 @@ function () {
               ];
           }
         });
-      });
-    };
-
-    this.getAllItems = function () {
-      return new Promise(function (resolve, reject) {
-        setTimeout(function () {
-          var result = JSON.parse(sessionStorage.getItem('data'));
-          if (result) resolve(Array.from(result));else reject('No Data');
-        }, 1000);
-      });
-    };
-
-    this.getItemById = function (id) {
-      return new Promise(function (resolve, reject) {
-        setTimeout(function () {
-          var result = JSON.parse(sessionStorage.getItem('data'));
-          var foundItem = result.find(function (item) {
-            return item.id === id;
-          });
-          if (foundItem) resolve(foundItem);else reject('Item Not Found');
-        }, 1000);
       });
     };
 
@@ -1179,22 +1308,6 @@ function () {
               }
             });
           });
-        }, 1000);
-      });
-    };
-
-    this.addItem = function (addItem) {
-      return new Promise(function (resolve, reject) {
-        setTimeout(function () {
-          var result = JSON.parse(sessionStorage.getItem('data'));
-          if (result.find(function (item) {
-            return item.name === addItem.name;
-          })) reject('Item Already Exists!');else {
-            addItem.id = result.length + 1;
-            result.push(addItem);
-            sessionStorage.setItem('data', JSON.stringify(result));
-            resolve('Successfully Added!');
-          }
         }, 1000);
       });
     };
@@ -1234,29 +1347,6 @@ function () {
       });
     };
 
-    this.updateItem = function (upItem) {
-      return new Promise(function (resolve, reject) {
-        setTimeout(function () {
-          var result = JSON.parse(sessionStorage.getItem('data'));
-          var foundItem = result.find(function (item) {
-            return item.id === upItem.id;
-          });
-
-          if (foundItem) {
-            var index = result.indexOf(foundItem);
-            result[index].name = upItem.name;
-            result[index].createdAt = upItem.createdAt;
-            result[index].createdBy = upItem.createdBy;
-            result[index].modifiedAt = upItem.modifiedAt;
-            result[index].modifiedBy = upItem.modifiedBy;
-            if (upItem.hasOwnProperty('extension')) result[index].extension = upItem.extension;else result[index].subFolders = upItem.subFolders;
-            sessionStorage.setItem('data', JSON.stringify(result));
-            resolve('Successfully Updated!');
-          } else reject('Item Not Found!');
-        }, 1000);
-      });
-    };
-
     this.removeItemToAPI = function (id, isFile) {
       return new Promise(function (resolve, reject) {
         setTimeout(function () {
@@ -1289,86 +1379,6 @@ function () {
             });
           });
         }, 500);
-      });
-    };
-
-    this.removeItem = function (id) {
-      return new Promise(function (resolve, reject) {
-        setTimeout(function () {
-          var result = JSON.parse(sessionStorage.getItem('data'));
-          var foundItem = result.find(function (item) {
-            return item.id === id;
-          });
-
-          if (foundItem) {
-            result.splice(result.indexOf(foundItem), 1);
-            sessionStorage.setItem('data', JSON.stringify(result));
-            resolve('Successfully Deleted!');
-          } else reject('Item Not Found!');
-        }, 1000);
-      });
-    };
-
-    this.initialItemList = function () {
-      var data = [];
-      var item1 = new _folder_model__WEBPACK_IMPORTED_MODULE_1__["default"](1, 'CAS', 'April 08', 'Minh Thuan', 'April 30', 'Megan Bowen');
-      var item2 = new _file_model__WEBPACK_IMPORTED_MODULE_0__["default"](2, 'CoasterAndBargeLoading.xlsx', 'April 08', 'Minh Thuan', 'A few seconds ago', 'Administrator', 'xlsx');
-      var item3 = new _file_model__WEBPACK_IMPORTED_MODULE_0__["default"](3, 'RevenueByServices.xlsx', 'April 08', 'Minh Thuan', 'A few seconds ago', 'Administrator', 'xlsx');
-      var item4 = new _file_model__WEBPACK_IMPORTED_MODULE_0__["default"](4, 'RevenueByServices2016.xlsx', 'April 08', 'Minh Thuan', 'A few seconds ago', 'Administrator', 'xlsx');
-      var item5 = new _file_model__WEBPACK_IMPORTED_MODULE_0__["default"](5, 'RevenueByServices2017.xlsx', 'April 08', 'Minh Thuan', 'A few seconds ago', 'Administrator', 'xlsx');
-      data.push(item1);
-      data.push(item2);
-      data.push(item3);
-      data.push(item4);
-      data.push(item5);
-      sessionStorage.setItem('data', JSON.stringify(data));
-    };
-
-    this.getFolderItems = function (id) {
-      return __awaiter(_this, void 0, void 0, function () {
-        var mockDelay, result, folderItems;
-
-        var _this = this;
-
-        return __generator(this, function (_a) {
-          switch (_a.label) {
-            case 0:
-              mockDelay = function () {
-                return __awaiter(_this, void 0, void 0, function () {
-                  return __generator(this, function (_a) {
-                    return [2
-                    /*return*/
-                    , new Promise(function (resolve) {
-                      return setTimeout(function () {
-                        return resolve('Delay');
-                      }, 1000);
-                    })];
-                  });
-                });
-              };
-
-              return [4
-              /*yield*/
-              , mockDelay()];
-
-            case 1:
-              _a.sent();
-
-              result = JSON.parse(sessionStorage.getItem('data'));
-              folderItems = result.filter(function (item) {
-                return !item.hasOwnProperty('extension') && item.id !== id;
-              });
-              folderItems = folderItems.filter(function (folder) {
-                return !(folder.subFolderId === id);
-              });
-              if (folderItems) return [2
-              /*return*/
-              , folderItems];else throw 'No Folder Item Found.';
-              return [2
-              /*return*/
-              ];
-          }
-        });
       });
     };
 
