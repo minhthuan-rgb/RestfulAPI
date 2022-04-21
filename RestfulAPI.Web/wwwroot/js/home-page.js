@@ -116,6 +116,9 @@ var renderGrid = function () {
   var closeBtns = document.querySelectorAll('.modal .btn-close');
   var newFolder = document.querySelector('#newFolder');
   var newFile = document.querySelector('#newFile');
+  var uploadModal = document.querySelector('#uploadModal');
+  var closeBtn = document.querySelector('.upload .btn-close');
+  var uploadFile = document.querySelector('#uploadFile');
   var client = new _utilities_client__WEBPACK_IMPORTED_MODULE_0__["default"]();
   client.getAllItem();
   closeBtns.forEach(function (btn) {
@@ -130,6 +133,14 @@ var renderGrid = function () {
 
   newFile.onclick = function () {
     client.openModal(true, true, null);
+  };
+
+  closeBtn.onclick = function () {
+    uploadModal.style.display = 'none';
+  };
+
+  uploadFile.onclick = function () {
+    client.openUpload();
   };
 };
 
@@ -373,7 +384,7 @@ function () {
     var _this = this;
 
     this.isEdit = true;
-    this.isFile = true;
+    this.isFile = true; // #region ItemList
 
     this.getAllItem = function () {
       return __awaiter(_this, void 0, void 0, function () {
@@ -425,7 +436,9 @@ function () {
       for (var i = 0; i < deleteBtns.length; i++) {
         _loop_1(i);
       }
-    };
+    }; //#endregion
+    // #region Form Modal
+
 
     this.openModal = function (isFile, isNew, item) {
       var _a, _b;
@@ -560,15 +573,59 @@ function () {
 
     this.reloadModalBtn = function () {
       document.querySelector('#modalFooter #btnConfirm').setAttribute('style', 'cursor: pointer;');
+    }; // #endregion
+    //#region Upload Modal
+
+
+    this.openUpload = function () {
+      document.querySelector('#uploadModal').setAttribute('style', 'display: block;');
+      var btnUpload = document.querySelector('#btnUpload');
+
+      btnUpload.onclick = function () {
+        btnUpload.style.cursor = 'not-allowed';
+
+        _this.confirmUpload();
+      };
     };
+
+    this.confirmUpload = function () {
+      var _a;
+
+      var myFile = document.querySelector('#myFile');
+      _this.item = new _file_model__WEBPACK_IMPORTED_MODULE_0__["default"]();
+      _a = _this.splitFileName(myFile.files[0].name), _this.item.name = _a[0], _this.item.extension = _a[1];
+      _this.item.createdAt = 'A few second ago';
+      _this.item.createdBy = document.querySelector('#username').textContent;
+      _this.item.modifiedAt = 'Never';
+      _this.item.modifiedBy = 'None';
+      _this.item.name = _this.item.name + "." + _this.item.extension;
+
+      _this.addItem();
+    };
+
+    this.hideUpload = function () {
+      document.querySelector('#uploadModal').setAttribute('style', 'display: none;');
+
+      _this.reloadUploadBtn();
+    };
+
+    this.reloadUploadBtn = function () {
+      document.querySelector('#btnUpload').setAttribute('style', 'cursor: pointer;');
+    }; //#endregion
+    // #region Method
+
 
     this.addItem = function () {
       _this.httpClient.addItemToAPI(_this.item).then(function (message) {
+        _this.hideUpload();
+
         _this.hideModal();
 
         alert(message);
       }).catch(function (error) {
         _this.reloadModalBtn();
+
+        _this.reloadUploadBtn();
 
         alert(error);
       });

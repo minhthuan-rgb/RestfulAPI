@@ -24,10 +24,10 @@
                 </div>
             </li>
             <li class="nav-list-item">
-                <a href="./"
-                ><i class="fas fa-upload"></i>Upload<i
-                    class="fas fa-caret-down dp-ico"
-                ></i
+                <a id="uploadFile" href="#"
+                    ><i class="fas fa-upload"></i>Upload<i
+                        class="fas fa-caret-down dp-ico"
+                  ></i
                 ></a>
             </li>
             <li class="nav-list-item">
@@ -141,6 +141,7 @@
             </tbody>
         </table>
     </section>
+
     <div id="formModal" class="modal">
         <div class="modal-content">
         <div class="modal-content-header">
@@ -226,9 +227,25 @@
         </div>
         <div class="modal-content-footer" id="modalFooter">
             <button type="button" class="btn btn-close">Close</button>
-            <button type="button" class="btn" id="btnConfirm">Add/ Save</button>
+            <button type="button" class="btn btn-confirm" id="btnConfirm">Add/ Save</button>
         </div>
         </div>
+    </div>
+
+    <div id="uploadModal" class="upload">
+      <form action="" class="upload-form">
+        <input type="file" id="myFile" name="filename" required />
+        <div class="upload-form-footer">
+          <button type="button" class="btn btn-close">Cancel</button>
+          <button
+            type="submit"
+            class="btn btn-confirm"
+            id="btnUpload"
+          disabled>
+            Upload
+          </button>
+        </div>
+      </form>
     </div>
 
     <script src="~/js/home-page.js" asp-append-version="true"></script>
