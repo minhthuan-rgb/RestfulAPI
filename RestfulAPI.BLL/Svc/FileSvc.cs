@@ -1,25 +1,42 @@
 ﻿using System;
 using System.Linq;
-using System.Collections.Generic;
-using System.Text;
+using RestfulAPI.BLL.Maps;
+using RestfulAPI.Common.BLL;
+using RestfulAPI.Common.Req;
+using RestfulAPI.DAL.Models;
+using RestfulAPI.DAL.Rep;
 
 namespace RestfulAPI.BLL.Svc
 {
-    using RestfulAPI.Common.Req;
-    using RestfulAPI.DAL.Models;
-    using RestfulAPI.DAL.Rep;
-
-    public class FileSvc
+    public class FileSvc : ISvc<FileRep, File, FileReq>
     {
+        #region New Version
+        public override Boolean Create(FileReq file)
+        {
+            File temp = new File();
+            Mapping.Map(temp, file);
+            return Rep.Create(temp);
+        }
+
+        public override Boolean Update(FileReq file)
+        {
+            File temp = new File();
+            Mapping.Map(temp, file);
+            return Rep.Update(temp);
+        }
+        #endregion  
+
+
+        #region Old Version
         private readonly FileRep fileRep = new FileRep();
         public File GetFileById (int id)
         {
-            return fileRep.GetFileById(id);
+            return fileRep.GetItemById(id);
         }
 
         public IQueryable<File> GetAllFiles ()
         {
-            return fileRep.GetAllFiles();
+            return fileRep.GetAllItems;
         }
 
         public Boolean CreateFile (FileReq file)
@@ -34,7 +51,7 @@ namespace RestfulAPI.BLL.Svc
                 ModifiedBy = file.ModifiedBy,
                 Extension = file.Extension
             };
-            return fileRep.CreateFile(temp);
+            return fileRep.Create(temp);
         }
 
         public Boolean UpdateFile (FileReq file)
@@ -50,12 +67,13 @@ namespace RestfulAPI.BLL.Svc
                 Extension = file.Extension
             };
 
-            return fileRep.UpdateFile(temp);
+            return fileRep.Update(temp);
         }
 
-        public Boolean DeteleFile (int id)
+        public Boolean RemoveFile (int id)
         {
-            return fileRep.RemoveFile(id);
+            return fileRep.Remove(id);
         }
+        #endregion
     }
 }

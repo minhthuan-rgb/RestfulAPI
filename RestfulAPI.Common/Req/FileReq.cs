@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RestfulAPI.Common.Req
+﻿namespace RestfulAPI.Common.Req
 {
     public class FileReq
     {

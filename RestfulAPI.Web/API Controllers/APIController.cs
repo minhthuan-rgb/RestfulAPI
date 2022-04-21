@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using RestfulAPI.BLL.Svc;
 using RestfulAPI.Common.Req;
-using System;
 
 namespace RestfulAPI.Web.API_Controllers
 {
@@ -11,69 +9,76 @@ namespace RestfulAPI.Web.API_Controllers
     [ApiController]
     public class APIController : ControllerBase
     {
-        private readonly FileSvc _fileSvc;
-        private readonly FolderSvc _folderSvc;
-
         public APIController ()
         {
             _fileSvc = new FileSvc();
             _folderSvc = new FolderSvc();
         }
 
+
+        #region Folder
+        private readonly FolderSvc _folderSvc;
+
         [HttpGet("get-all-folders")]
         public IActionResult GetAllFolders()
         {
-            var res = _folderSvc.GetAllFolders();
-            return Ok(res);
-        }
-
-        [HttpGet("get-all-files")]
-        public IActionResult GetAllFiles()
-        {
-            var res = _fileSvc.GetAllFiles();
+            var res = _folderSvc.GetAllItems;
             return Ok(res);
         }
 
         [HttpPost("create-folder")]
-        public IActionResult CreateFolder ([FromBody] FolderReq req)
+        public IActionResult CreateFolder([FromBody] FolderReq req)
         {
-            var res = _folderSvc.CreateFolder(req);
+            var res = _folderSvc.Create(req);
             return Ok(res);
         }
 
         [HttpPut("update-folder")]
-        public IActionResult UpdateFolder ([FromBody] FolderReq req)
+        public IActionResult UpdateFolder([FromBody] FolderReq req)
         {
-            var res = _folderSvc.UpdateFolder(req);
+            var res = _folderSvc.Update(req);
             return Ok(res);
         }
 
         [HttpDelete("delete-folder")]
-        public IActionResult DeleteFolder ([FromBody] int id)
+        public IActionResult DeleteFolder([FromBody] int id)
         {
-            var res = _folderSvc.DeleteFolder(id);
+            var res = _folderSvc.Remove(id);
+            return Ok(res);
+        }
+        #endregion
+
+
+        #region File
+        private readonly FileSvc _fileSvc;
+
+        [HttpGet("get-all-files")]
+        public IActionResult GetAllFiles()
+        {
+            var res = _fileSvc.GetAllItems;
             return Ok(res);
         }
 
         [HttpPost("create-file")]
-        public IActionResult CreateFile ([FromBody] FileReq req)
+        public IActionResult CreateFile([FromBody] FileReq req)
         {
-            var res = _fileSvc.CreateFile(req);
+            var res = _fileSvc.Create(req);
             return Ok(res);
         }
 
         [HttpPut("update-file")]
-        public IActionResult UpdateFile ([FromBody] FileReq req)
+        public IActionResult UpdateFile([FromBody] FileReq req)
         {
-            var res = _fileSvc.UpdateFile(req);
+            var res = _fileSvc.Update(req);
             return Ok(res);
         }
 
         [HttpDelete("delete-file")]
-        public IActionResult DeleteFile ([FromBody] int id)
+        public IActionResult DeleteFile([FromBody] int id)
         {
-            var res = _fileSvc.DeteleFile(id);
+            var res = _fileSvc.Remove(id);
             return Ok(res);
         }
+        #endregion
     }
 }

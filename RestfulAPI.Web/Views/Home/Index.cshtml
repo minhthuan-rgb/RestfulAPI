@@ -51,9 +51,9 @@
         </ul>
     </nav>
 
-    <div style="float: right; margin-right: 1rem;">
-        <h2>Hello <b id="username">@User.Identity.Name</b>!</h2>
-        <a asp-controller="Account" asp-action="Signout" asp-area="MicrosoftIdentity">Signout</a>
+    <div class="info" style="float: right; margin-right: 1rem;">
+        <h2 class="info-username">Hello <b id="username">@User.Identity.Name</b>!</h2>
+        <a class ="info-sign-out" asp-controller="Account" asp-action="Signout" asp-area="MicrosoftIdentity">Signout</a>
     </div>
 
     <section class="doc">

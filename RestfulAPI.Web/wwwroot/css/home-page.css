@@ -40,10 +40,6 @@ button {
   margin-right: 0.5rem;
 }
 
-b {
-  font-weight: bold;
-}
-
 .nav {
   width: 100%;
   background: #dcdde1;
@@ -154,6 +150,32 @@ b {
     margin-left: 0;
   }
 }
+.info {
+  float: right;
+  margin-right: 1rem;
+  font-size: 1.6rem;
+}
+@media only screen and (max-width: 767.98px) {
+  .info {
+    font-size: 1.3rem;
+  }
+}
+.info-username b {
+  font-weight: bold;
+}
+.info-sign-out {
+  font-weight: bold;
+  color: #192a56;
+  text-decoration: underline;
+  float: right;
+}
+
+.footer {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+}
+
 .doc {
   width: 90%;
   margin: 0 auto;

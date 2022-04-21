@@ -1,14 +1,22 @@
 ﻿using System;
 using System.Linq;
-using System.Collections.Generic;
-using System.Text;
+using RestfulAPI.Common.DAL;
+using RestfulAPI.DAL.Models;
 
 namespace RestfulAPI.DAL.Rep
 {
-    using RestfulAPI.DAL.Models;
-
-    public class FileRep
+    public class FileRep : IRep<MyDatabaseContext, File>
     {
+        #region New Version
+        public override File GetItemById(int id)
+        {
+            File res = GetAllItems.FirstOrDefault(file => file.Id == id);
+            return res;
+        }
+        #endregion
+
+
+        #region Old Version
         private readonly MyDatabaseContext mbContext = new MyDatabaseContext();
 
         public File GetFileById (int id)
@@ -85,5 +93,6 @@ namespace RestfulAPI.DAL.Rep
             }
             return true;
         }
+        #endregion
     }
 }

@@ -10,6 +10,11 @@ using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using System;
 using Microsoft.AspNetCore.Http;
+using RestfulAPI.Common.BLL;
+using RestfulAPI.BLL.Svc;
+using RestfulAPI.Common.Req;
+using RestfulAPI.DAL.Models;
+using RestfulAPI.DAL.Rep;
 
 namespace RestfulAPI.Web
 {
@@ -25,6 +30,9 @@ namespace RestfulAPI.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<ISvc<FolderRep, Folder, FolderReq>, FolderSvc>();
+            services.AddTransient<ISvc<FileRep, File, FileReq>, FileSvc>();
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;

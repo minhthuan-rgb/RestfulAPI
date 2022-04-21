@@ -382,6 +382,7 @@ function () {
         return __generator(this, function (_b) {
           switch (_b.label) {
             case 0:
+              document.querySelector('#itemList').innerHTML = '';
               _a = this;
               return [4
               /*yield*/
@@ -477,7 +478,6 @@ function () {
           _this.item.id = 0;
           _this.item.createdAt = 'A few seconds ago';
           _this.item.createdBy = document.querySelector('#username').textContent;
-          ;
           _this.item.modifiedAt = 'Never';
           _this.item.modifiedBy = 'None';
           _a = _this.splitFileName('TestFile.xlsx'), _this.item.name = _a[0], _this.item.extension = _a[1];

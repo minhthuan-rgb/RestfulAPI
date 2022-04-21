@@ -1,26 +1,44 @@
 ﻿using System;
 using System.Linq;
-using System.Collections.Generic;
-using System.Text;
+using RestfulAPI.BLL.Maps;
+using RestfulAPI.Common.BLL;
+using RestfulAPI.Common.Req;
+using RestfulAPI.DAL.Models;
+using RestfulAPI.DAL.Rep;
 
 namespace RestfulAPI.BLL.Svc
 {
-    using RestfulAPI.Common.Req;
-    using RestfulAPI.DAL.Models;
-    using RestfulAPI.DAL.Rep;
-
-    public class FolderSvc
+    public class FolderSvc : ISvc<FolderRep, Folder, FolderReq>
     {
+        #region New Version
+        public override Boolean Create(FolderReq folder)
+        {
+            Folder temp = new Folder();
+            Mapping.Map(temp, folder);
+            return Rep.Create(temp);
+        }
+
+        public override bool Update(FolderReq folder)
+        {
+            Folder temp = new Folder();
+            Mapping.Map(temp, folder);
+
+            return Rep.Update(temp);
+        }
+        #endregion
+
+
+        #region Old Version
         private readonly FolderRep folderRep = new FolderRep();
 
         public Folder GetFolderById (int id)
         {
-            return folderRep.GetFolderById(id);
+            return folderRep.GetItemById(id);
         }
 
         public IQueryable<Folder> GetAllFolders ()
         {
-            return folderRep.GetAllFolders();
+            return folderRep.GetAllItems;
         }
 
         public Boolean CreateFolder (FolderReq folder)
@@ -36,7 +54,7 @@ namespace RestfulAPI.BLL.Svc
                 SubFolderId = folder.SubFolderId
             };
 
-            return folderRep.CreateFolder(temp);
+            return folderRep.Create(temp);
         }
 
         public Boolean UpdateFolder(FolderReq folder)
@@ -52,12 +70,13 @@ namespace RestfulAPI.BLL.Svc
                 SubFolderId = folder.SubFolderId
             };
 
-            return folderRep.UpdateFolder(temp);
+            return folderRep.Update(temp);
         }
 
-        public Boolean DeleteFolder (int id)
+        public Boolean RemoveFolder (int id)
         {
-            return folderRep.RemoveFolder(id);
+            return folderRep.Remove(id);
         }
+        #endregion  
     }
 }
