@@ -29,6 +29,7 @@ namespace RestfulAPI.BLL.Svc
 
         #region Old Version
         private readonly FileRep fileRep = new FileRep();
+
         public File GetFileById (int id)
         {
             return fileRep.GetItemById(id);

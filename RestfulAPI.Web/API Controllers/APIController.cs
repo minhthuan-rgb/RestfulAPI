@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RestfulAPI.BLL.Svc;
+using RestfulAPI.Common.BLL;
 using RestfulAPI.Common.Req;
+using RestfulAPI.DAL.Models;
 
 namespace RestfulAPI.Web.API_Controllers
 {
@@ -9,15 +10,15 @@ namespace RestfulAPI.Web.API_Controllers
     [ApiController]
     public class APIController : ControllerBase
     {
-        public APIController ()
+        public APIController (IGenericSvc<Folder, FolderReq> folderSvc, IGenericSvc<File, FileReq> fileSvc)
         {
-            _fileSvc = new FileSvc();
-            _folderSvc = new FolderSvc();
+            _folderSvc = folderSvc;
+            _fileSvc = fileSvc;
         }
 
 
         #region Folder
-        private readonly FolderSvc _folderSvc;
+        private readonly IGenericSvc<Folder, FolderReq> _folderSvc;
 
         [HttpGet("get-all-folders")]
         public IActionResult GetAllFolders()
@@ -50,7 +51,7 @@ namespace RestfulAPI.Web.API_Controllers
 
 
         #region File
-        private readonly FileSvc _fileSvc;
+        private readonly IGenericSvc<File, FileReq> _fileSvc;
 
         [HttpGet("get-all-files")]
         public IActionResult GetAllFiles()

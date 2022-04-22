@@ -15,6 +15,7 @@ using RestfulAPI.BLL.Svc;
 using RestfulAPI.Common.Req;
 using RestfulAPI.DAL.Models;
 using RestfulAPI.DAL.Rep;
+using RestfulAPI.Common.DAL;
 
 namespace RestfulAPI.Web
 {
@@ -30,9 +31,6 @@ namespace RestfulAPI.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<ISvc<FolderRep, Folder, FolderReq>, FolderSvc>();
-            services.AddTransient<ISvc<FileRep, File, FileReq>, FileSvc>();
-
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
@@ -65,6 +63,10 @@ namespace RestfulAPI.Web
                                 .Build();
                 options.Filters.Add(new AuthorizeFilter(policy));
             }).AddMicrosoftIdentityUI();
+
+            //Config DI for SVC
+            services.AddScoped<IGenericSvc<Folder, FolderReq>, FolderSvc>();
+            services.AddScoped<IGenericSvc<File, FileReq>, FileSvc>();
 
             //Register the Swagger services
             services.AddSwaggerDocument(config =>

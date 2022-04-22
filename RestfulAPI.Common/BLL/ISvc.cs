@@ -1,14 +1,15 @@
-﻿using RestfulAPI.Common.DAL;
+﻿using Microsoft.Extensions.DependencyInjection;
+using RestfulAPI.Common.DAL;
 using System;
 using System.Linq;
 
 namespace RestfulAPI.Common.BLL
 {
-    public class ISvc<R, T, C> where C : class where T : class, new() where R : IGenericRep<T>, new()
+    public class ISvc<R, T, C> : IGenericSvc<T, C> where C : class where T : class, new() where R : IGenericRep<T>, new()
     {
         private R _rep;
 
-        public ISvc ()
+        public ISvc()
         {
             _rep = new R();
         }
@@ -22,22 +23,22 @@ namespace RestfulAPI.Common.BLL
             }
         }
 
-        public T GetItemById (int id)
+        public T GetItemById(int id)
         {
             return _rep.GetItemById(id);
         }
 
-        public virtual Boolean Create (C c)
+        public virtual Boolean Create(C c)
         {
             return false;
         }
 
-        public virtual Boolean Update (C c)
+        public virtual Boolean Update(C c)
         {
             return false;
         }
 
-        public Boolean Remove (int id)
+        public Boolean Remove(int id)
         {
             return _rep.Remove(id);
         }

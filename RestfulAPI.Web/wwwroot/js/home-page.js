@@ -119,8 +119,11 @@ var renderGrid = function () {
   var uploadModal = document.querySelector('#uploadModal');
   var closeBtn = document.querySelector('.upload .btn-close');
   var uploadFile = document.querySelector('#uploadFile');
+  var btnUpload = document.querySelector('#btnUpload');
+  var myFile = document.querySelector('#myFile');
   var client = new _utilities_client__WEBPACK_IMPORTED_MODULE_0__["default"]();
-  client.getAllItem();
+  client.getAllItem(); // #region Form Modal
+
   closeBtns.forEach(function (btn) {
     btn.onclick = function () {
       modal.style.display = 'none';
@@ -133,7 +136,9 @@ var renderGrid = function () {
 
   newFile.onclick = function () {
     client.openModal(true, true, null);
-  };
+  }; // #endregion
+  // #region Upload Modal
+
 
   closeBtn.onclick = function () {
     uploadModal.style.display = 'none';
@@ -142,6 +147,13 @@ var renderGrid = function () {
   uploadFile.onclick = function () {
     client.openUpload();
   };
+
+  btnUpload.setAttribute('disabled', 'true');
+
+  myFile.onchange = function () {
+    if (myFile.files[0]) btnUpload.removeAttribute('disabled');else btnUpload.setAttribute('disabled', 'true');
+  }; // #endregion
+
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (renderGrid);
@@ -451,17 +463,10 @@ function () {
 
         if (isNew) {
           _this.isEdit = false;
-          _this.item.id = 0;
-          _this.item.name = 'Test Folder';
-          _this.item.createdAt = 'A few seconds ago';
           _this.item.createdBy = document.querySelector('#username').textContent;
-          _this.item.modifiedAt = 'Nerver';
-          _this.item.modifiedBy = 'None';
         } else {
           _this.isEdit = true;
           _this.item = item;
-          _this.item.modifiedBy = document.querySelector('#username').textContent;
-          _this.item.ModifiedAt = 'A few seconds ago';
         }
 
         htmlBodyLastChild = "<div class=\"form-group\">\n                            <p>Sub Folders</p>";
@@ -488,17 +493,11 @@ function () {
 
         if (isNew) {
           _this.isEdit = false;
-          _this.item.id = 0;
-          _this.item.createdAt = 'A few seconds ago';
           _this.item.createdBy = document.querySelector('#username').textContent;
-          _this.item.modifiedAt = 'Never';
-          _this.item.modifiedBy = 'None';
           _a = _this.splitFileName('TestFile.xlsx'), _this.item.name = _a[0], _this.item.extension = _a[1];
         } else {
           _this.isEdit = true;
           _this.item = item;
-          _this.item.modifiedBy = document.querySelector('#username').textContent;
-          _this.item.modifiedAt = 'A few seconds ago';
           _b = _this.splitFileName(_this.item.name), _this.item.name = _b[0], _this.item.extension = _b[1];
         }
 
@@ -536,14 +535,12 @@ function () {
       var name = document.querySelector('#name');
       var createdAt = document.querySelector('#createdAt');
       var createdBy = document.querySelector('#createdBy');
-      var modifiedAt = document.querySelector('#modifiedAt');
-      var modifiedBy = document.querySelector('#modifiedBy');
       _this.item.id = +itemId.value;
       _this.item.name = name.value;
       _this.item.createdAt = createdAt.value;
       _this.item.createdBy = createdBy.value;
-      _this.item.modifiedAt = modifiedAt.value;
-      _this.item.modifiedBy = modifiedBy.value;
+      _this.item.modifiedAt = 'A few seconds ago';
+      _this.item.modifiedBy = document.querySelector('#username').textContent;
 
       if (_this.isFile) {
         var extension = document.querySelector('#extension');
@@ -582,7 +579,7 @@ function () {
       var btnUpload = document.querySelector('#btnUpload');
 
       btnUpload.onclick = function () {
-        btnUpload.style.cursor = 'not-allowed';
+        btnUpload.setAttribute('disabled', 'true');
 
         _this.confirmUpload();
       };
@@ -594,10 +591,7 @@ function () {
       var myFile = document.querySelector('#myFile');
       _this.item = new _file_model__WEBPACK_IMPORTED_MODULE_0__["default"]();
       _a = _this.splitFileName(myFile.files[0].name), _this.item.name = _a[0], _this.item.extension = _a[1];
-      _this.item.createdAt = 'A few second ago';
       _this.item.createdBy = document.querySelector('#username').textContent;
-      _this.item.modifiedAt = 'Never';
-      _this.item.modifiedBy = 'None';
       _this.item.name = _this.item.name + "." + _this.item.extension;
 
       _this.addItem();
@@ -605,54 +599,112 @@ function () {
 
     this.hideUpload = function () {
       document.querySelector('#uploadModal').setAttribute('style', 'display: none;');
+      document.querySelector('#myFile').value = '';
 
       _this.reloadUploadBtn();
     };
 
     this.reloadUploadBtn = function () {
-      document.querySelector('#btnUpload').setAttribute('style', 'cursor: pointer;');
+      document.querySelector('#btnUpload').removeAttribute('disabled');
     }; //#endregion
     // #region Method
 
 
     this.addItem = function () {
-      _this.httpClient.addItemToAPI(_this.item).then(function (message) {
-        _this.hideUpload();
+      return __awaiter(_this, void 0, void 0, function () {
+        var _this = this;
 
-        _this.hideModal();
+        return __generator(this, function (_a) {
+          switch (_a.label) {
+            case 0:
+              return [4
+              /*yield*/
+              , this.httpClient.addItemToAPI(this.item).then(function (message) {
+                if (message === true) {
+                  _this.hideUpload();
 
-        alert(message);
-      }).catch(function (error) {
-        _this.reloadModalBtn();
+                  _this.hideModal();
 
-        _this.reloadUploadBtn();
+                  alert('Successfully Added');
+                } else {
+                  _this.reloadModalBtn();
 
-        alert(error);
+                  _this.reloadUploadBtn();
+
+                  alert('Unsuccessfully Add');
+                }
+              })];
+
+            case 1:
+              _a.sent();
+
+              return [2
+              /*return*/
+              ];
+          }
+        });
       });
     };
 
     this.updateItem = function () {
-      _this.httpClient.updateItemToAPI(_this.item).then(function (message) {
-        _this.hideModal();
+      return __awaiter(_this, void 0, void 0, function () {
+        var _this = this;
 
-        alert(message);
-      }).catch(function (error) {
-        _this.reloadModalBtn();
+        return __generator(this, function (_a) {
+          switch (_a.label) {
+            case 0:
+              return [4
+              /*yield*/
+              , this.httpClient.updateItemToAPI(this.item).then(function (message) {
+                if (message === true) {
+                  _this.hideModal();
 
-        alert(error);
+                  alert('Successfully Updated');
+                } else {
+                  _this.reloadModalBtn();
+
+                  alert('Unsuccessfully Update');
+                }
+              })];
+
+            case 1:
+              _a.sent();
+
+              return [2
+              /*return*/
+              ];
+          }
+        });
       });
     };
 
     this.deleteItem = function (id, isFile) {
-      if (confirm('Are you sure to delete this item?')) {
-        _this.httpClient.removeItemToAPI(id, isFile).then(function (message) {
-          alert(message);
-        }).catch(function (error) {
-          alert(error);
-        });
+      return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+          switch (_a.label) {
+            case 0:
+              if (!confirm('Are you sure to delete this item?')) return [3
+              /*break*/
+              , 2];
+              return [4
+              /*yield*/
+              , this.httpClient.removeItemToAPI(id, isFile).then(function (message) {
+                if (message === true) alert('Successfully Deleted');else alert('Unsuccessfully Delete');
+              })];
 
-        _this.getAllItem();
-      }
+            case 1:
+              _a.sent();
+
+              this.getAllItem();
+              _a.label = 2;
+
+            case 2:
+              return [2
+              /*return*/
+              ];
+          }
+        });
+      });
     }; // function to test async/ await
 
 
@@ -761,7 +813,7 @@ function (_super) {
     }
 
     if (createdAt === void 0) {
-      createdAt = '';
+      createdAt = 'A few second ago';
     }
 
     if (createdBy === void 0) {
@@ -769,11 +821,11 @@ function (_super) {
     }
 
     if (modifiedAt === void 0) {
-      modifiedAt = '';
+      modifiedAt = 'Never';
     }
 
     if (modifiedBy === void 0) {
-      modifiedBy = '';
+      modifiedBy = 'None';
     }
 
     if (extension === void 0) {
@@ -842,11 +894,11 @@ function (_super) {
     }
 
     if (name === void 0) {
-      name = '';
+      name = 'Test Folder';
     }
 
     if (createdAt === void 0) {
-      createdAt = '';
+      createdAt = 'A few seconds ago';
     }
 
     if (createdBy === void 0) {
@@ -854,11 +906,11 @@ function (_super) {
     }
 
     if (modifiedAt === void 0) {
-      modifiedAt = '';
+      modifiedAt = 'Nerver';
     }
 
     if (modifiedBy === void 0) {
-      modifiedBy = '';
+      modifiedBy = 'None';
     }
 
     if (subFolderId === void 0) {
@@ -1224,108 +1276,91 @@ function () {
     this.BASE_URL = 'https://localhost:44302/';
 
     this.getAllFolders = function () {
-      return new Promise(function (resolve, reject) {
-        setTimeout(function () {
-          return __awaiter(_this, void 0, void 0, function () {
-            var result;
-            return __generator(this, function (_a) {
-              switch (_a.label) {
-                case 0:
-                  return [4
-                  /*yield*/
-                  , fetch(this.BASE_URL + "api/API/get-all-folders").then(function (res) {
-                    return res.json();
-                  }).then(function (res) {
-                    return Array.from(res);
-                  })];
+      return __awaiter(_this, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+          switch (_a.label) {
+            case 0:
+              return [4
+              /*yield*/
+              , fetch(this.BASE_URL + "api/API/get-all-folders").then(function (res) {
+                return res.json();
+              }).then(function (res) {
+                return Array.from(res);
+              })];
 
-                case 1:
-                  result = _a.sent();
-                  if (result) resolve(result);else reject('No Data');
-                  return [2
-                  /*return*/
-                  ];
-              }
-            });
-          });
-        }, 1000);
+            case 1:
+              result = _a.sent();
+              if (result) return [2
+              /*return*/
+              , result];else throw 'No Data';
+              return [2
+              /*return*/
+              ];
+          }
+        });
       });
     };
 
     this.getAllFiles = function () {
-      return new Promise(function (resolve, reject) {
-        setTimeout(function () {
-          return __awaiter(_this, void 0, void 0, function () {
-            var result;
-            return __generator(this, function (_a) {
-              switch (_a.label) {
-                case 0:
-                  return [4
-                  /*yield*/
-                  , fetch(this.BASE_URL + "api/API/get-all-files").then(function (res) {
-                    return res.json();
-                  }).then(function (res) {
-                    return Array.from(res);
-                  })];
+      return __awaiter(_this, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+          switch (_a.label) {
+            case 0:
+              return [4
+              /*yield*/
+              , fetch(this.BASE_URL + "api/API/get-all-files").then(function (res) {
+                return res.json();
+              }).then(function (res) {
+                return Array.from(res);
+              })];
 
-                case 1:
-                  result = _a.sent();
-                  if (result) resolve(result);else reject('No Data');
-                  return [2
-                  /*return*/
-                  ];
-              }
-            });
-          });
-        }, 1000);
+            case 1:
+              result = _a.sent();
+              if (result) return [2
+              /*return*/
+              , result];else throw 'No Data';
+              return [2
+              /*return*/
+              ];
+          }
+        });
       });
     };
 
     this.getAllItemsFromAPI = function () {
       return __awaiter(_this, void 0, void 0, function () {
-        var itemList, mockDelay;
-
-        var _this = this;
-
+        var itemList;
         return __generator(this, function (_a) {
           switch (_a.label) {
             case 0:
               itemList = [];
-              this.getAllFolders().then(function (data) {
-                data.forEach(function (d) {
-                  return itemList.push(d);
-                });
-              });
-              this.getAllFiles().then(function (data) {
-                data.forEach(function (d) {
-                  return itemList.push(d);
-                });
-              });
-
-              mockDelay = function () {
-                return __awaiter(_this, void 0, void 0, function () {
-                  return __generator(this, function (_a) {
-                    return [2
-                    /*return*/
-                    , new Promise(function (resolve) {
-                      return setTimeout(function () {
-                        return resolve('Delay');
-                      }, 3500);
-                    })];
-                  });
-                });
-              };
-
               return [4
               /*yield*/
-              , mockDelay()];
+              , this.getAllFolders().then(function (data) {
+                data.forEach(function (d) {
+                  return itemList.push(d);
+                });
+              })];
 
             case 1:
               _a.sent();
 
+              return [4
+              /*yield*/
+              , this.getAllFiles().then(function (data) {
+                data.forEach(function (d) {
+                  return itemList.push(d);
+                });
+              })];
+
+            case 2:
+              _a.sent();
+
               if (itemList) return [2
               /*return*/
-              , itemList];else throw 'No Item Found';
+              , itemList];else throw 'No Data';
               return [2
               /*return*/
               ];
@@ -1335,107 +1370,92 @@ function () {
     };
 
     this.addItemToAPI = function (addItem) {
-      return new Promise(function (resolve, reject) {
-        setTimeout(function () {
-          return __awaiter(_this, void 0, void 0, function () {
-            var result;
-            return __generator(this, function (_a) {
-              switch (_a.label) {
-                case 0:
-                  return [4
-                  /*yield*/
-                  , fetch("" + this.BASE_URL + (addItem.hasOwnProperty('extension') ? 'api/API/create-file' : 'api/API/create-folder'), {
-                    method: 'POST',
-                    headers: {
-                      'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(addItem)
-                  }).then(function (res) {
-                    return res.json();
-                  }).then(function (res) {
-                    return res;
-                  })];
+      return __awaiter(_this, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+          switch (_a.label) {
+            case 0:
+              return [4
+              /*yield*/
+              , fetch("" + this.BASE_URL + (addItem.hasOwnProperty('extension') ? 'api/API/create-file' : 'api/API/create-folder'), {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(addItem)
+              }).then(function (res) {
+                return res.json();
+              }).then(function (res) {
+                return res;
+              })];
 
-                case 1:
-                  result = _a.sent();
-                  if (result === true) resolve('Successfully Added!');else reject('Unsuccessfully Add!');
-                  return [2
-                  /*return*/
-                  ];
-              }
-            });
-          });
-        }, 1000);
+            case 1:
+              result = _a.sent();
+              return [2
+              /*return*/
+              , result];
+          }
+        });
       });
     };
 
     this.updateItemToAPI = function (upItem) {
-      return new Promise(function (resolve, reject) {
-        setTimeout(function () {
-          return __awaiter(_this, void 0, void 0, function () {
-            var result;
-            return __generator(this, function (_a) {
-              switch (_a.label) {
-                case 0:
-                  return [4
-                  /*yield*/
-                  , fetch("" + this.BASE_URL + (upItem.hasOwnProperty('extension') ? 'api/API/update-file' : 'api/API/update-folder'), {
-                    method: 'PUT',
-                    headers: {
-                      'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(upItem)
-                  }).then(function (res) {
-                    return res.json();
-                  }).then(function (res) {
-                    return res;
-                  })];
+      return __awaiter(_this, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+          switch (_a.label) {
+            case 0:
+              return [4
+              /*yield*/
+              , fetch("" + this.BASE_URL + (upItem.hasOwnProperty('extension') ? 'api/API/update-file' : 'api/API/update-folder'), {
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(upItem)
+              }).then(function (res) {
+                return res.json();
+              }).then(function (res) {
+                return res;
+              })];
 
-                case 1:
-                  result = _a.sent();
-                  if (result === true) resolve('Successfully Updated!');else reject('Unsuccessfully Update');
-                  return [2
-                  /*return*/
-                  ];
-              }
-            });
-          });
-        }, 1000);
+            case 1:
+              result = _a.sent();
+              return [2
+              /*return*/
+              , result];
+          }
+        });
       });
     };
 
     this.removeItemToAPI = function (id, isFile) {
-      return new Promise(function (resolve, reject) {
-        setTimeout(function () {
-          return __awaiter(_this, void 0, void 0, function () {
-            var result;
-            return __generator(this, function (_a) {
-              switch (_a.label) {
-                case 0:
-                  return [4
-                  /*yield*/
-                  , fetch("" + this.BASE_URL + (isFile ? 'api/API/delete-file' : 'api/API/delete-folder'), {
-                    method: 'DELETE',
-                    headers: {
-                      'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(id)
-                  }).then(function (res) {
-                    return res.json();
-                  }).then(function (res) {
-                    return res;
-                  })];
+      return __awaiter(_this, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+          switch (_a.label) {
+            case 0:
+              return [4
+              /*yield*/
+              , fetch("" + this.BASE_URL + (isFile ? 'api/API/delete-file' : 'api/API/delete-folder'), {
+                method: 'DELETE',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(id)
+              }).then(function (res) {
+                return res.json();
+              }).then(function (res) {
+                return res;
+              })];
 
-                case 1:
-                  result = _a.sent();
-                  if (result === true) resolve('Successfully Deleled!');else reject('Unsuccessfully Delete!');
-                  return [2
-                  /*return*/
-                  ];
-              }
-            });
-          });
-        }, 500);
+            case 1:
+              result = _a.sent();
+              return [2
+              /*return*/
+              , result];
+          }
+        });
       });
     };
 

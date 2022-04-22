@@ -13,37 +13,23 @@
         </button>
         <ul class="nav-list">
             <li class="nav-list-item dropdown">
-                <a href="#" class="dropdown-btn"
-                ><i class="fas fa-plus"></i>New<i
-                    class="fas fa-caret-down dp-ico"
-                ></i
-                ></a>
+                <a href="#" class="dropdown-btn"><i class="fas fa-plus"></i>New<i class="fas fa-caret-down dp-ico"></i></a>
                 <div class="dropdown-content">
-                <a href="#" id="newFolder">Folder</a>
-                <a href="#" id="newFile">File</a>
+                    <a href="#" id="newFolder">Folder</a>
+                    <a href="#" id="newFile">File</a>
                 </div>
             </li>
             <li class="nav-list-item">
-                <a id="uploadFile" href="#"
-                    ><i class="fas fa-upload"></i>Upload<i
-                        class="fas fa-caret-down dp-ico"
-                  ></i
-                ></a>
+                <a id="uploadFile" href="#"><i class="fas fa-upload"></i>Upload<i class="fas fa-caret-down dp-ico"></i></a>
             </li>
             <li class="nav-list-item">
                 <a href="./"><i class="fas fa-sync"></i>Sync</a>
             </li>
             <li class="nav-list-item">
-                <a href="./"
-                ><i class="fas fa-file-excel"></i>Export to Excel</a
-                >
+                <a href="./"><i class="fas fa-file-excel"></i>Export to Excel</a>
             </li>
             <li class="nav-list-item">
-                <a href="./"
-                ><i class="fas fa-stream"></i>Flow<i
-                    class="fas fa-caret-down dp-ico"
-                ></i
-                ></a>
+                <a href="./"><i class="fas fa-stream"></i>Flow<i class="fas fa-caret-down dp-ico"></i></a>
             </li>
             <li class="nav-list-item">
                 <a href="./"><i class="fas fa-ellipsis-h dp-ico"></i></a>
@@ -53,7 +39,7 @@
 
     <div class="info" style="float: right; margin-right: 1rem;">
         <h2 class="info-username">Hello <b id="username">@User.Identity.Name</b>!</h2>
-        <a class ="info-sign-out" asp-controller="Account" asp-action="Signout" asp-area="MicrosoftIdentity">Signout</a>
+        <a class="info-sign-out" asp-controller="Account" asp-action="Signout" asp-area="MicrosoftIdentity">Signout</a>
     </div>
 
     <section class="doc">
@@ -61,82 +47,81 @@
         <table class="doc-table">
             <thead>
                 <tr>
-                <th><i class="far fa-file"></i></th>
-                <th>
-                    <span>Name</span><i class="fas fa-caret-down"></i>
-                </th>
-                <th>
-                    <span>Modified</span><i class="fas fa-caret-down"></i>
-                </th>
-                <th>
-                    <span>Modified By</span
-                    ><i class="fas fa-caret-down"></i>
-                </th>
-                <th>Action</th>
-                <th><i class="fas fa-plus"></i>Add Column</th>
+                    <th><i class="far fa-file"></i></th>
+                    <th>
+                        <span>Name</span><i class="fas fa-caret-down"></i>
+                    </th>
+                    <th>
+                        <span>Modified</span><i class="fas fa-caret-down"></i>
+                    </th>
+                    <th>
+                        <span>Modified By</span><i class="fas fa-caret-down"></i>
+                    </th>
+                    <th>Action</th>
+                    <th><i class="fas fa-plus"></i>Add Column</th>
                 </tr>
             </thead>
             <tbody id="itemList">
                 <tr>
-                <td><i class="fas fa-folder-open"></i></td>
-                <td>CAS</td>
-                <td>April 30</td>
-                <td>Megan Bowen</td>
-                <td>
-                    <button class="btn btn-edit">Edit</button>
-                    <button class="btn btn-delete">Delete</button>
-                </td>
-                <td></td>
+                    <td><i class="fas fa-folder-open"></i></td>
+                    <td>CAS</td>
+                    <td>April 30</td>
+                    <td>Megan Bowen</td>
+                    <td>
+                        <button class="btn btn-edit">Edit</button>
+                        <button class="btn btn-delete">Delete</button>
+                    </td>
+                    <td></td>
                 </tr>
                 <tr>
-                <td><i class="fas fa-file-excel"></i></td>
-                <td>
-                    <i class="fab fa-yelp"></i>CoasterAndBargeLoading.xlsx
-                </td>
-                <td>A few seconds ago</td>
-                <td>Administrator MOD</td>
-                <td>
-                    <button class="btn btn-edit">Edit</button>
-                    <button class="btn btn-delete">Delete</button>
-                </td>
-                <td></td>
+                    <td><i class="fas fa-file-excel"></i></td>
+                    <td>
+                        <i class="fab fa-yelp"></i>CoasterAndBargeLoading.xlsx
+                    </td>
+                    <td>A few seconds ago</td>
+                    <td>Administrator MOD</td>
+                    <td>
+                        <button class="btn btn-edit">Edit</button>
+                        <button class="btn btn-delete">Delete</button>
+                    </td>
+                    <td></td>
                 </tr>
                 <tr>
-                <td><i class="fas fa-file-excel"></i></td>
-                <td><i class="fab fa-yelp"></i>RevenueByServices.xlsx</td>
-                <td>A few seconds ago</td>
-                <td>Administrator MOD</td>
-                <td>
-                    <button class="btn btn-edit">Edit</button>
-                    <button class="btn btn-delete">Delete</button>
-                </td>
-                <td></td>
+                    <td><i class="fas fa-file-excel"></i></td>
+                    <td><i class="fab fa-yelp"></i>RevenueByServices.xlsx</td>
+                    <td>A few seconds ago</td>
+                    <td>Administrator MOD</td>
+                    <td>
+                        <button class="btn btn-edit">Edit</button>
+                        <button class="btn btn-delete">Delete</button>
+                    </td>
+                    <td></td>
                 </tr>
                 <tr>
-                <td><i class="fas fa-file-excel"></i></td>
-                <td>
-                    <i class="fab fa-yelp"></i>RevenueByServices2016.xlsx
-                </td>
-                <td>A few seconds ago</td>
-                <td>Administrator MOD</td>
-                <td>
-                    <button class="btn btn-edit">Edit</button>
-                    <button class="btn btn-delete">Delete</button>
-                </td>
-                <td></td>
+                    <td><i class="fas fa-file-excel"></i></td>
+                    <td>
+                        <i class="fab fa-yelp"></i>RevenueByServices2016.xlsx
+                    </td>
+                    <td>A few seconds ago</td>
+                    <td>Administrator MOD</td>
+                    <td>
+                        <button class="btn btn-edit">Edit</button>
+                        <button class="btn btn-delete">Delete</button>
+                    </td>
+                    <td></td>
                 </tr>
                 <tr>
-                <td><i class="fas fa-file-excel"></i></td>
-                <td>
-                    <i class="fab fa-yelp"></i>RevenueByServices2017.xlsx
-                </td>
-                <td>A few seconds ago</td>
-                <td>Administrator MOD</td>
-                <td>
-                    <button class="btn btn-edit">Edit</button>
-                    <button class="btn btn-delete">Delete</button>
-                </td>
-                <td></td>
+                    <td><i class="fas fa-file-excel"></i></td>
+                    <td>
+                        <i class="fab fa-yelp"></i>RevenueByServices2017.xlsx
+                    </td>
+                    <td>A few seconds ago</td>
+                    <td>Administrator MOD</td>
+                    <td>
+                        <button class="btn btn-edit">Edit</button>
+                        <button class="btn btn-delete">Delete</button>
+                    </td>
+                    <td></td>
                 </tr>
             </tbody>
         </table>
@@ -144,108 +129,61 @@
 
     <div id="formModal" class="modal">
         <div class="modal-content">
-        <div class="modal-content-header">
-            <h2 id="modalHeader">Add An Item/ Update An Item</h2>
-            <button class="btn-close" type="button" aria-label="Close"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="modal-content-body" id="modalForm">
-            <div class="form-group">
-            <label for="itemId">ID</label>
-            <input
-                class="form-control"
-                id="itemId"
-                type="number"
-                name="ID"
-                disabled
-            />
+            <div class="modal-content-header">
+                <h2 id="modalHeader">Add An Item/ Update An Item</h2>
+                <button class="btn-close" type="button" aria-label="Close"><i class="fas fa-times"></i></button>
             </div>
-            <div class="form-group">
-            <label for="name">Name</label>
-            <input
-                class="form-control"
-                id="name"
-                type="text"
-                name="name"
-            />
+            <div class="modal-content-body" id="modalForm">
+                <div class="form-group">
+                    <label for="itemId">ID</label>
+                    <input class="form-control" id="itemId" type="number" name="ID" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input class="form-control" id="name" type="text" name="name" />
+                </div>
+                <div class="form-group">
+                    <label for="modifiedAt">Modified At</label>
+                    <input class="form-control" id="modifiedAt" type="text" name="ModifiedAt" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="modifiedBy">Modified By</label>
+                    <input class="form-control" id="modifiedBy" type="text" name="ModifiedBy" />
+                </div>
+                <div class="form-group">
+                    <label for="createdAt">Created At</label>
+                    <input class="form-control" id="createAt" type="text" name="CreateAt" disabled />
+                </div>
+                <div class="form-group">
+                    <label class="" for="createdBy">Created By</label>
+                    <input class="form-control" id="createBy" type="text" name="CreateBy" />
+                </div>
+                <div class="form-group">
+                    <label for="subFolders">Sub Folders</label>
+                    <input class="form-control" id="subFolders" type="text" name="SubFolders" />
+                </div>
+                <div class="form-group">
+                    <label for="extension">Extension</label>
+                    <input class="form-control" id="extension" type="text" name="Extension" />
+                </div>
             </div>
-            <div class="form-group">
-            <label for="modifiedAt">Modified At</label>
-            <input
-                class="form-control"
-                id="modifiedAt"
-                type="text"
-                name="ModifiedAt"
-                disabled
-            />
+            <div class="modal-content-footer" id="modalFooter">
+                <button type="button" class="btn btn-close">Close</button>
+                <button type="button" class="btn btn-confirm" id="btnConfirm">Add/ Save</button>
             </div>
-            <div class="form-group">
-            <label for="modifiedBy">Modified By</label>
-            <input
-                class="form-control"
-                id="modifiedBy"
-                type="text"
-                name="ModifiedBy"
-            />
-            </div>
-            <div class="form-group">
-            <label for="createdAt">Created At</label>
-            <input
-                class="form-control"
-                id="createAt"
-                type="text"
-                name="CreateAt"
-                disabled
-            />
-            </div>
-            <div class="form-group">
-            <label class="" for="createdBy">Created By</label>
-            <input
-                class="form-control"
-                id="createBy"
-                type="text"
-                name="CreateBy"
-            />
-            </div>
-            <div class="form-group">
-            <label for="subFolders">Sub Folders</label>
-            <input
-                class="form-control"
-                id="subFolders"
-                type="text"
-                name="SubFolders"
-            />
-            </div>
-            <div class="form-group">
-            <label for="extension">Extension</label>
-            <input
-                class="form-control"
-                id="extension"
-                type="text"
-                name="Extension"
-            />
-            </div>
-        </div>
-        <div class="modal-content-footer" id="modalFooter">
-            <button type="button" class="btn btn-close">Close</button>
-            <button type="button" class="btn btn-confirm" id="btnConfirm">Add/ Save</button>
-        </div>
         </div>
     </div>
 
     <div id="uploadModal" class="upload">
-      <form action="" class="upload-form">
-        <input type="file" id="myFile" name="filename" required />
-        <div class="upload-form-footer">
-          <button type="button" class="btn btn-close">Cancel</button>
-          <button
-            type="submit"
-            class="btn btn-confirm"
-            id="btnUpload"
-          disabled>
-            Upload
-          </button>
-        </div>
-      </form>
+        <form action="" class="upload-form">
+            <input type="file" id="myFile" name="filename" required />
+            <div class="upload-form-footer">
+                <button type="button" class="btn btn-close">Cancel</button>
+                <button type="submit" class="btn btn-confirm" id="btnUpload" disabled>
+                    Upload
+                </button>
+            </div>
+        </form>
     </div>
 
     <script src="~/js/home-page.js" asp-append-version="true"></script>
