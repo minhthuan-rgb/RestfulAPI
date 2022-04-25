@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using RestfulAPI.BLL.Maps;
 using RestfulAPI.Common.BLL;
 using RestfulAPI.Common.Req;
@@ -11,19 +12,19 @@ namespace RestfulAPI.BLL.Svc
     public class FolderSvc : ISvc<FolderRep, Folder, FolderReq>
     {
         #region New Version
-        public override Boolean Create(FolderReq folder)
+        public override async Task<Boolean> Create(FolderReq folder)
         {
             Folder temp = new Folder();
             Mapping.Map(temp, folder);
-            return Rep.Create(temp);
+            return await Rep.Create(temp);
         }
 
-        public override bool Update(FolderReq folder)
+        public override async Task<Boolean> Update(FolderReq folder)
         {
             Folder temp = new Folder();
             Mapping.Map(temp, folder);
 
-            return Rep.Update(temp);
+            return await Rep.Update(temp);
         }
         #endregion
 
@@ -33,15 +34,15 @@ namespace RestfulAPI.BLL.Svc
 
         public Folder GetFolderById (int id)
         {
-            return folderRep.GetItemById(id);
+            return folderRep.GetFolderById(id);
         }
 
         public IQueryable<Folder> GetAllFolders ()
         {
-            return folderRep.GetAllItems;
+            return folderRep.GetAllFolders();
         }
 
-        public Boolean CreateFolder (FolderReq folder)
+        public async Task<Boolean> CreateFolder (FolderReq folder)
         {
             Folder temp = new Folder
             {
@@ -51,13 +52,13 @@ namespace RestfulAPI.BLL.Svc
                 CreatedBy = folder.CreatedBy,
                 ModifiedAt = folder.ModifiedAt,
                 ModifiedBy = folder.ModifiedBy,
-                SubFolderId = folder.SubFolderId
+                SubFolderId = folder.SubFolderId == 0 ? null : folder.SubFolderId,
             };
 
-            return folderRep.Create(temp);
+            return await folderRep.CreateFolder(temp);
         }
 
-        public Boolean UpdateFolder(FolderReq folder)
+        public async Task<Boolean> UpdateFolder(FolderReq folder)
         {
             Folder temp = new Folder
             {
@@ -67,15 +68,15 @@ namespace RestfulAPI.BLL.Svc
                 CreatedBy = folder.CreatedBy,
                 ModifiedAt = folder.ModifiedAt,
                 ModifiedBy = folder.ModifiedBy,
-                SubFolderId = folder.SubFolderId
+                SubFolderId = folder.SubFolderId == 0 ? null : folder.SubFolderId,
             };
 
-            return folderRep.Update(temp);
+            return await folderRep.UpdateFolder(temp);
         }
 
-        public Boolean RemoveFolder (int id)
+        public async Task<Boolean> RemoveFolder (int id)
         {
-            return folderRep.Remove(id);
+            return await folderRep.RemoveFolder(id);
         }
         #endregion  
     }

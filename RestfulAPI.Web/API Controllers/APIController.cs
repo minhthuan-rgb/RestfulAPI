@@ -3,6 +3,7 @@ using RestfulAPI.BLL.Svc;
 using RestfulAPI.Common.BLL;
 using RestfulAPI.Common.Req;
 using RestfulAPI.DAL.Models;
+using System.Threading.Tasks;
 
 namespace RestfulAPI.Web.API_Controllers
 {
@@ -28,23 +29,23 @@ namespace RestfulAPI.Web.API_Controllers
         }
 
         [HttpPost("create-folder")]
-        public IActionResult CreateFolder([FromBody] FolderReq req)
+        public async Task<IActionResult> CreateFolder([FromBody] FolderReq req)
         {
-            var res = _folderSvc.Create(req);
+            var res = await _folderSvc.Create(req);
             return Ok(res);
         }
 
         [HttpPut("update-folder")]
-        public IActionResult UpdateFolder([FromBody] FolderReq req)
+        public async Task<IActionResult> UpdateFolder([FromBody] FolderReq req)
         {
-            var res = _folderSvc.Update(req);
+            var res = await _folderSvc.Update(req);
             return Ok(res);
         }
 
         [HttpDelete("delete-folder")]
-        public IActionResult DeleteFolder([FromBody] int id)
+        public async Task<IActionResult> DeleteFolder([FromBody] int id)
         {
-            var res = _folderSvc.Remove(id);
+            var res = await _folderSvc.Remove(id);
             return Ok(res);
         }
         #endregion
@@ -61,23 +62,23 @@ namespace RestfulAPI.Web.API_Controllers
         }
 
         [HttpPost("create-file")]
-        public IActionResult CreateFile([FromBody] FileReq req)
+        public async Task<IActionResult> CreateFile([FromBody] FileReq req)
         {
-            var res = _fileSvc.Create(req);
+            var res = await _fileSvc.Create(req);
             return Ok(res);
         }
 
         [HttpPut("update-file")]
-        public IActionResult UpdateFile([FromBody] FileReq req)
+        public async Task<IActionResult> UpdateFile([FromBody] FileReq req)
         {
-            var res = _fileSvc.Update(req);
+            var res = await _fileSvc.Update(req);
             return Ok(res);
         }
 
         [HttpDelete("delete-file")]
-        public IActionResult DeleteFile([FromBody] int id)
+        public async Task<IActionResult> DeleteFile([FromBody] int id)
         {
-            var res = _fileSvc.Remove(id);
+            var res = await _fileSvc.Remove(id);
             return Ok(res);
         }
         #endregion

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace RestfulAPI.Common.DAL
 {
@@ -17,7 +18,7 @@ namespace RestfulAPI.Common.DAL
         {
             get
             {
-                IQueryable<T> res = _context.Set<T>();
+                IQueryable<T> res = _context.Set<T>().AsNoTracking();
                 return res;
             }
         }
@@ -28,14 +29,14 @@ namespace RestfulAPI.Common.DAL
             return null;
         }
 
-        public virtual Boolean Create (T t)
+        public virtual async Task<Boolean> Create (T t)
         { 
             using (var tran = _context.Database.BeginTransaction())
             {
                 try
                 {
                     var res = _context.Set<T>().Add(t);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                     tran.Commit();
                 }
                 catch (Exception ex)
@@ -48,19 +49,19 @@ namespace RestfulAPI.Common.DAL
             return true;
         }
 
-        public virtual Boolean Update (T t)
+        public virtual async Task<Boolean> Update (T t)
         {
-            using (var trang = _context.Database.BeginTransaction())
+            using (var tran = _context.Database.BeginTransaction())
             {
                 try
                 {
                     var res = _context.Set<T>().Update(t);
-                    _context.SaveChanges();
-                    trang.Commit();
+                    await _context.SaveChangesAsync();
+                    tran.Commit();
                 }
                 catch (Exception ex)
                 {
-                    trang.Rollback();
+                    tran.Rollback();
                     Console.WriteLine(ex.StackTrace);
                     return false;
                 }
@@ -68,7 +69,7 @@ namespace RestfulAPI.Common.DAL
             return true;
         }
 
-        public Boolean Remove (int id)
+        public async Task<Boolean> Remove (int id)
         {
             using (var tran = _context.Database.BeginTransaction())
             {
@@ -76,7 +77,7 @@ namespace RestfulAPI.Common.DAL
                 {
                     T t = GetItemById(id);
                     var res = _context.Remove(t);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                     tran.Commit();
                 }
                 catch (Exception ex)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using RestfulAPI.BLL.Maps;
 using RestfulAPI.Common.BLL;
 using RestfulAPI.Common.Req;
@@ -11,18 +12,18 @@ namespace RestfulAPI.BLL.Svc
     public class FileSvc : ISvc<FileRep, File, FileReq>
     {
         #region New Version
-        public override Boolean Create(FileReq file)
+        public override async Task<Boolean> Create(FileReq file)
         {
             File temp = new File();
             Mapping.Map(temp, file);
-            return Rep.Create(temp);
+            return await Rep.Create(temp);
         }
 
-        public override Boolean Update(FileReq file)
+        public override async Task<Boolean> Update(FileReq file)
         {
             File temp = new File();
             Mapping.Map(temp, file);
-            return Rep.Update(temp);
+            return await Rep.Update(temp);
         }
         #endregion  
 
@@ -32,15 +33,15 @@ namespace RestfulAPI.BLL.Svc
 
         public File GetFileById (int id)
         {
-            return fileRep.GetItemById(id);
+            return fileRep.GetFileById(id);
         }
 
         public IQueryable<File> GetAllFiles ()
         {
-            return fileRep.GetAllItems;
+            return fileRep.GetAllFiles();
         }
 
-        public Boolean CreateFile (FileReq file)
+        public async Task<Boolean> CreateFile (FileReq file)
         {
             File temp = new File
             {
@@ -52,10 +53,10 @@ namespace RestfulAPI.BLL.Svc
                 ModifiedBy = file.ModifiedBy,
                 Extension = file.Extension
             };
-            return fileRep.Create(temp);
+            return await fileRep.CreateFile(temp);
         }
 
-        public Boolean UpdateFile (FileReq file)
+        public async Task<Boolean> UpdateFile (FileReq file)
         {
             File temp = new File
             {
@@ -68,12 +69,12 @@ namespace RestfulAPI.BLL.Svc
                 Extension = file.Extension
             };
 
-            return fileRep.Update(temp);
+            return await fileRep.UpdateFile(temp);
         }
 
-        public Boolean RemoveFile (int id)
+        public async Task<Boolean> RemoveFile (int id)
         {
-            return fileRep.Remove(id);
+            return await fileRep.RemoveFile(id);
         }
         #endregion
     }

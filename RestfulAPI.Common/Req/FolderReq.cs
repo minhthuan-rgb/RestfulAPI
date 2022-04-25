@@ -8,6 +8,6 @@
         public string CreatedBy { get; set; }
         public string ModifiedAt { get; set; }
         public string ModifiedBy { get; set; }
-        public int SubFolderId { get; set; }
+        public int? SubFolderId { get; set; }
     }
 }

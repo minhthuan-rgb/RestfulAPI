@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace RestfulAPI.Common.BLL
 {
@@ -11,10 +12,10 @@ namespace RestfulAPI.Common.BLL
 
         T GetItemById(int id);
 
-        Boolean Create(C c);
+        Task<Boolean> Create(C c);
 
-        Boolean Update(C c);
+        Task<Boolean> Update(C c);
 
-        Boolean Remove(int id);
+        Task<Boolean> Remove(int id);
     }
 }

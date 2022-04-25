@@ -13,7 +13,7 @@ namespace RestfulAPI.BLL.Maps
             folder.CreatedBy = folderReq.CreatedBy;
             folder.ModifiedAt = folderReq.ModifiedAt;
             folder.ModifiedBy = folderReq.ModifiedBy;
-            folder.SubFolderId = folderReq.SubFolderId;
+            folder.SubFolderId = folderReq.SubFolderId == 0 ? null : folderReq.SubFolderId;
         }
     }
 }

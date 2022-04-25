@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace RestfulAPI.Common.DAL
 {
@@ -8,10 +9,10 @@ namespace RestfulAPI.Common.DAL
         IQueryable<T> GetAllItems { get; }
         T GetItemById(int id);
 
-        Boolean Create(T t);
+        Task<Boolean> Create(T t);
 
-        Boolean Update(T t);
+        Task<Boolean> Update(T t);
 
-        Boolean Remove(int id);
+        Task<Boolean> Remove(int id);
     }
 }

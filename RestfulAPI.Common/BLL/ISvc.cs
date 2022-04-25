@@ -2,6 +2,7 @@
 using RestfulAPI.Common.DAL;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace RestfulAPI.Common.BLL
 {
@@ -28,19 +29,19 @@ namespace RestfulAPI.Common.BLL
             return _rep.GetItemById(id);
         }
 
-        public virtual Boolean Create(C c)
+        public virtual Task<Boolean> Create(C c)
         {
-            return false;
+            return Task.FromResult(false);
         }
 
-        public virtual Boolean Update(C c)
+        public virtual Task<Boolean> Update(C c)
         {
-            return false;
+            return Task.FromResult(false);
         }
 
-        public Boolean Remove(int id)
+        public async Task<Boolean> Remove(int id)
         {
-            return _rep.Remove(id);
+            return await _rep.Remove(id);
         }
 
         public R Rep

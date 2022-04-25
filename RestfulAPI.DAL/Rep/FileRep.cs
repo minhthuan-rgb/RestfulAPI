@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using RestfulAPI.Common.DAL;
 using RestfulAPI.DAL.Models;
 
@@ -21,26 +23,26 @@ namespace RestfulAPI.DAL.Rep
 
         public File GetFileById (int id)
         {
-            File res = mbContext.Files.FirstOrDefault(file => file.Id == id);
+            File res = mbContext.Files.AsNoTracking().FirstOrDefault(file => file.Id == id);
 
             return res;
         }
 
         public IQueryable<File> GetAllFiles ()
         {
-            IQueryable<File> res = mbContext.Files.Select(file => file);
+            IQueryable<File> res = mbContext.Files.AsNoTracking().Select(file => file);
 
             return res;
         } 
 
-        public Boolean CreateFile (File file)
+        public async Task<Boolean> CreateFile (File file)
         {
             using (var tran  = mbContext.Database.BeginTransaction())
             {
                 try
                 {
                     var t = mbContext.Files.Add(file);
-                    mbContext.SaveChanges();
+                    await mbContext.SaveChangesAsync();
                     tran.Commit();
                 }
                 catch (Exception ex)
@@ -53,14 +55,14 @@ namespace RestfulAPI.DAL.Rep
             return true;
         }
 
-        public Boolean UpdateFile (File file)
+        public async Task<Boolean> UpdateFile (File file)
         {
             using (var tran = mbContext.Database.BeginTransaction())
             {
                 try
                 {
                     var t = mbContext.Files.Update(file);
-                    mbContext.SaveChanges();
+                    await mbContext.SaveChangesAsync();
                     tran.Commit();
                 }
                 catch (Exception ex)
@@ -73,7 +75,7 @@ namespace RestfulAPI.DAL.Rep
             return true;
         }
 
-        public Boolean RemoveFile (int id)
+        public async Task<Boolean> RemoveFile (int id)
         {
             using (var tran = mbContext.Database.BeginTransaction())
             {
@@ -81,7 +83,7 @@ namespace RestfulAPI.DAL.Rep
                 {
                     File file = GetFileById(id);
                     var t = mbContext.Files.Remove(file);
-                    mbContext.SaveChanges();
+                    await mbContext.SaveChangesAsync();
                     tran.Commit();
                 }
                 catch (Exception ex)
